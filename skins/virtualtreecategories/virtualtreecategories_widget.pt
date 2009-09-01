@@ -1,0 +1,193 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      i18n:domain="AddRemoveWidget">
+  <head><title></title></head>
+  <body>
+
+    <!-- Add/Remove Widget -->
+
+    <!-- View - simply display them, one per line -->
+   <metal:view_macro define-macro="view"
+              tal:define="vocab python:field.Vocabulary(here);
+                          value python:accessor();
+                          display python:here.displayValue(vocab, value);"
+              tal:replace="structure display" />
+
+    <!-- Edit - display two boxes, side-by-side, with Add and Remove buttons;
+         if allow_add is true, display a single entry box underneath.
+         
+         To reuse the widget outside archetypes, define:
+         
+            fieldName       - Name of the field to submit
+            vocabulary      - A DisplayList of permitted values (left box)
+            
+         optionally define:
+            
+            value           - A list of currently selected values (right box, default [])
+            allowAdd        - True if the add box should be displayed (default false)
+            width           - The width of the add boxes (default 10em)
+            size            - The height of the add boxes (default 7)
+            width_absolute  - Whether the width is absolute or min-width (default false)
+            
+         and then include the macro add_remove_box. Be sure to include
+         widget_addremove.js as well.
+      -->
+    <metal:define define-macro="edit">
+      <metal:use use-macro="field_macro | here/widgets/field/macros/edit">
+        <metal:widgetBody fill-slot="widget_body"
+                tal:define="value          python:edit_accessor();
+                            vocabulary     python:field.Vocabulary(context);
+                            allowAdd       not:field/enforceVocabulary;
+                            
+                            width          widget/width;
+                            width_absolute widget/width_absolute;
+                            size           widget/size;
+
+                            vocab_source   python:getattr(widget,'vocab_source','portal_catalog');
+                            isKWfield      python:widget.is_keyword_field(field,vocab_source) and not vocabulary;
+                            indexKWs       python:isKWfield and widget.makeVocab(context.collectKeywords(fieldName, field.accessor, vocab_source)) or widget.makeVocab([]);
+                            vocabulary     python:indexKWs + vocabulary;
+                            
+                            roleBasedAdd   widget/role_based_add;
+                            site_props     here/portal_properties/site_properties;
+                            addRoleProp    widget/add_role_property;
+                            allowRoles     python:site_props.getProperty(addRoleProp, []);
+                            allowAdd       python:allowAdd and (not roleBasedAdd or [role for role in user.getRolesInContext(here) if role in allowRoles] != []);
+                            ">
+            <metal:widget define-macro="add_remove_box"
+                tal:define="value          value          | python:[];
+                            allowAdd       allowAdd       | python:False;
+                            width          width          | string:10em;
+                            size           size           | string:7;
+                            width_absolute width_absolute | python:False; 
+                            
+                            selectedItems  python:request.get(fieldName, value);
+                            fromBox        string:${fieldName}_unselected; 
+                            toBox          string:${fieldName}_selected;
+                            addBox         string:${fieldName}_new;
+                            widthSpec      python:test(width_absolute, 'width', 'min-width')">
+
+            <div class="discreet"
+                 i18n:translate="help_categories_tree" 
+                 i18n:domain="collective.virtualtreecategories">
+                    Unselect all nodes to show all available keywords
+            </div>
+            <ul id="VTCFilterTree"></ul>
+            <div class="visualClear"><!-- --></div>
+            <table cellpadding="2" cellspacing="2">
+            <tr>
+            <!-- From box --> 
+            <td valign="top" style=""
+                    tal:attributes="style string:${widthSpec}:${width}">
+                <div class="formHelp" i18n:translate="label_available_items">
+                    Available:
+                </div>
+                <select id="items-available"
+                        name=""
+                        size=""
+                        onDblClick=""
+                        tabindex=""
+                        style=""
+                        tal:attributes="id          fromBox;
+                                        name        fromBox;
+                                        style       string:${widthSpec}:${width};
+                                        tabindex    tabindex/next;
+                                        size        size;
+                                        onDblClick  string:addremove_addItem('${fieldName}')">
+                  <tal:block repeat="item vocabulary/keys">
+                    <option 
+                        value="#"
+                        tal:condition="python:item not in selectedItems"
+                        tal:content="python:vocabulary.getValue(item)" 
+                        tal:attributes="value item;">Item</option>
+                  </tal:block>
+                </select>
+
+            </td>
+            <!-- Buttons -->
+            <td valign="middle" align="center">
+                <input type="button" value="Add &gt;"
+                       style="width: 100%;" onClick=""
+                       i18n:attributes="value button_add_item;"
+                       tal:attributes="tabindex tabindex/next;
+                                    onClick  string:addremove_addItem('${fieldName}')"/><br/>
+                <input type="button" value="&lt; Remove"
+                       style="width: 100%; margin: 0"
+                       i18n:attributes="value button_remove_item;"
+                       tal:attributes="tabindex tabindex/next;
+                                       onClick  string:addremove_removeItem('${fieldName}')"/>
+            </td>
+            <!-- To box -->
+            <td valign="top" style=""
+                tal:attributes="style string:${widthSpec}:${width}">
+
+                <div class="formHelp"  i18n:translate="label_selected_items">
+                    Selected:
+                </div>
+                <select id="items-selected"
+                        name=""
+                        size=""
+                        tabindex=""
+                        onDblClick=""
+                        tal:attributes="id       toBox;
+                                        name     toBox;
+                                        style    string:${widthSpec}:${width};
+                                        tabindex tabindex/next;
+                                        size     size;
+                                        onDblClick  string:addremove_removeItem('${fieldName}')">
+                  <option value="#"
+                      tal:repeat="item selectedItems"
+                      tal:content="python:vocabulary.getValue(item, item)"
+                      tal:attributes="value item">Item</option>
+                </select>
+
+            </td>
+            </tr>
+
+            <!-- Add button -->
+            <tr tal:condition="allowAdd">
+            <td align="right" valign="top" colspan="2">
+                <div style="margin-top: 1em; margin-right: 1em">
+                    <span class="formHelp"  i18n:translate="label_new_item_value">New Value: </span>
+                    <input type="text" id=""
+                               tal:attributes="id addBox"/>
+                </div>
+            </td>
+            <td align="center" valign="middle">
+                <div style="margin-top: 1em">
+                    <input type="button" value="&gt; Add New Value"
+                           style="width: 100%; margin: 0"
+                           onClick=""
+                           i18n:attributes="value button_add_new_item;"
+                           tal:attributes="tabindex tabindex/next;
+                                           onClick  string:addremove_addNewItem('${fieldName}')"/>
+                </div>
+            </td>
+            </tr>
+
+            </table>
+            
+            <!-- Observe the magic -->
+            <div tal:attributes="id string:${fieldName}_container;">
+                <input type="hidden" 
+                       tal:repeat="item selectedItems" 
+                       tal:attributes="value item; 
+                                       name  string:${fieldName}:list" />
+            </div>
+                                 
+          </metal:widget>
+        </metal:widgetBody>
+      </metal:use>
+    </metal:define>
+
+    <div metal:define-macro="search">
+      <div metal:use-macro="here/widget_addremove/macros/edit">
+      </div>
+    </div>
+
+  </body>
+
+</html>
+

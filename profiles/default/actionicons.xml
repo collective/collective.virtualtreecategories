@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<action-icons xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    i18n:domain="collective.virtualtreecategories">
+ <action-icon category="controlpanel"
+              action_id="VirtualTreeCategories"
+              title="Virtual tree categories settings" priority="0"
+              icon_expr="++resource++collective.virtualtreecategories.resources/tree_icon.png"
+              i18n:attributes="title"/>
+</action-icons>

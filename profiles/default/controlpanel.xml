@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<object name="portal_controlpanel"
+        xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+       i18n:domain="collective.virtualtreecategories">
+  <configlet title="Virtual tree categories settings"
+             action_id="VirtualTreeCategories"
+             appId="collective.virtualtreecategories"
+             category="Products"
+             conditional_expression=""
+             url_expr="string:${portal_url}/@@virtualtreecategories-controlpanel"
+             visible="True"
+             i18n:attributes="title">
+    <permission>Manage Portal</permission>
+  </configlet>
+</object>

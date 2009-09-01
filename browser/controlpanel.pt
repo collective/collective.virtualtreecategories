@@ -1,0 +1,210 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="collective.virtualtreecategories">
+
+<head>
+    <metal:block fill-slot="top_slot"
+                 tal:define="dummy python:request.set('disable_border',1)" />
+
+    <metal:override fill-slot="column_one_slot">
+        <metal:prefs use-macro="here/portlet_prefs/macros/portlet" />
+    </metal:override>
+
+    <metal:override fill-slot="column_two_slot" />
+
+    <metal:css fill-slot="style_slot">
+        <link rel="stylesheet" type="text/css" href="++resource++collective.virtualtreecategories.jsTree/tree_component.css" />
+        <link rel="stylesheet" type="text/css" href="++resource++collective.virtualtreecategories.resources/virtualtreecategories.css" />
+        <link rel="stylesheet" type="text/css" href="++resource++collective.virtualtreecategories.resources/jquery.jgrowl.css" />
+    </metal:css>
+    
+    <metal:js fill-slot="javascript_head_slot">
+        <script type="text/javascript" src="++resource++collective.virtualtreecategories.resources/jquery.jgrowl.min.js"></script>
+        <script type="text/javascript" src="++resource++collective.virtualtreecategories.jsTree/css.js"></script>
+        <script type="text/javascript" src="++resource++collective.virtualtreecategories.jsTree/tree_component.js"></script>
+
+        <!-- required for xml data type -->
+        <script type="text/javascript" src="++resource++collective.virtualtreecategories.jsTree/sarissa.js"></script>
+
+        <script type="text/javascript" src="++resource++collective.virtualtreecategories.jsTree/sarissa_ieemu_xpath.js"></script>
+        <script type="text/javascript" src="++resource++collective.virtualtreecategories.jsTree/jquery.xslt.js"></script>
+        <!-- required for metadata rule definitions -->
+        <script type="text/javascript" src="++resource++collective.virtualtreecategories.jsTree/jquery.metadata.js"></script>
+        <!-- required for cookie functionality -->
+        <!-- <script type="text/javascript" src="++resource++collective.virtualtreecategories.jsTree/jquery.cookie.js"></script> -->
+    </metal:js>
+
+</head>
+
+<body>
+    <metal:override fill-slot="main">
+        <h1>Virtual tree categories configuration</h1>
+        <p class="documentDescription" i18n:translate="help_vtc_configuration_panel">
+            Here you may define virtual categories as tree. The same tree you 
+            create here will be available on the widget used eg. for Categories
+            (Subject) field. You should create tree nodes first and assign 
+            few keywords to the each tree node. Start with right click to the 
+            Root node. Don't forget to save selected keywords after change.
+        </p>
+        <div>
+            <ul id="VTCTree"></ul>
+            <div id="keywords" style="display: none">
+                <select name="keywords" multiple="multiple" size="20">
+                    <option tal:repeat="opt view/all_keywords"
+                            tal:content="opt"
+                            tal:attributes="value opt">keyword</option>
+                </select>
+                <div id="save-area" style="display: none">
+                    <div id="save-info">
+                        You are going to save selected keywords to the category <span id="selected-category-title"></span>.
+                    </div>
+                    <button id="save-keywords" class="allowMultiSubmit">Save</button>
+                </div>
+            </div>
+            <script type="text/javascript">
+                var $tree = jq('ul#VTCTree');
+                var keywords_changed = false;
+
+                function node_selected(node) {
+                    if (node.id == 'root-node') {
+                        jq("#keywords").hide()
+                    } else {
+                        jq("#keywords").show()
+                    };
+                    var ctitle = jq(node).find('a:first').text();
+                    jq('#selected-category-title').text(ctitle);
+                    keywords_changed = false;
+                    // call portal and get list of selected keywords
+                    jq.post("vtc-category-keywords", {category_path: selected_category()}, 
+                        function(plone_keywords){
+                            var keywords = plone_keywords.keywords;
+                            jq("#keywords select option").each(function(idx, obj) {
+                                if (jQuery.inArray(this.value, keywords) != -1) {
+                                    jq(this).attr('selected', 'selected')
+                                } else {
+                                    jq(this).removeAttr('selected')
+                                }
+                            });
+                        },
+                        'json'
+                    );
+                };
+                function before_change_node() {
+                    if (keywords_changed) {
+                        if (confirm('Loose changes?')) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+                };
+                function selected_category(node) {
+                    if (node == undefined) {
+                        var category = jq.tree_reference('VTCTree').selected;
+                    } else {
+                        var category = jq(node);
+                    };
+                    var category_path = [];
+                    if (category != null) {
+                        category_path.push(category.attr('id'));
+                        category.parents('li').each(function() {
+                            category_path.push(jq(this).attr('id'))
+                        });
+                    };
+                    return category_path;
+                };
+                jq('#keywords').bind('change', function() {
+                    keywords_changed = true;
+                    var node = jq.tree_reference('VTCTree').selected;
+                    var ctitle = node.find('a:first').text();
+                    jq('#selected-category-title').text(ctitle);
+                    jq('#save-area').show();
+                });
+                jq('#save-keywords').bind('click', function() {
+                    // send list of selected keywords to the server
+                    var kws = [];
+                    jq("#keywords select option").each(function() {
+                        var selected = jq(this).attr('selected');
+                        if (selected || (selected == 'selected')) {
+                            kws.push(jq(this).text());
+                        }
+                    });
+                    var category = selected_category();
+                    if (category == null) {
+                        jq.jGrowl('No category selected', { life: 1500 });
+                    } else {
+                        jq.post("vtc-category-save-keywords", 
+                                {  
+                                    category_path: category,
+                                    kws: kws
+                                }, 
+                                function(data) {
+                                    jq.jGrowl(data, { life: 1500 });
+                                    keywords_changed = false;
+                                    jq('#save-area').hide();
+                                }, 
+                                'text');
+                    }
+                });
+                $tree.tree({
+                                data  : {
+                                  type  : "json",
+                                  url   : "@@vtc-categories-tree.json",
+                                  async : false
+                                },
+                                lang : {
+                                    new_node    : "New category"
+                                },
+                                rules: {
+                                    deletable  : [ "folder" ],
+                                    renameable : [ "folder" ],
+                                    draggable  : "none",
+                                    droppable  : "none",
+                                },
+                                callback: {
+                                    beforechange: function(node, tree_obj) { return before_change_node() },
+                                    onselect: function(node, tree_obj) { node_selected(node) },
+                                    oncreate: function(node) { jq(node).attr('rel', 'folder') },
+                                    onrename: function(node, lang, tree_obj, rb) {
+                                        old_id = node.id // may be undefined (new node)
+                                        new_name = jq(node).children("a:visible").text();
+                                        // shared code. Server determines if creating/renaming by the old_name value
+                                        jq.post("vtc-category-added-renamed",
+                                                {
+                                                  category_path: selected_category(node),
+                                                  old_id: old_id,
+                                                  new_name: new_name
+                                                },
+                                                function(data) {
+                                                    jq.jGrowl(data.msg, { life: 1500 });
+                                                    // set/change node id
+                                                    if (data.result) {
+                                                        node.id = data.new_id
+                                                    }
+                                                },
+                                                'json'
+                                        )
+                                    },
+                                    beforedelete: function(node, tree_obj) {
+                                        jq.post("vtc-category-removed",
+                                                {
+                                                  category_path: selected_category(node),
+                                                },
+                                                function(data) {
+                                                    jq.jGrowl(data.msg, { life: 3000 });
+                                                    // Can't stop the deletion :(
+                                                },
+                                                'json'
+                                        );
+                                        return true;
+                                    } 
+                                }
+                            });
+                            
+            </script>
+        </div>
+    </metal:override>
+</body>
+</html>
+

@@ -1,0 +1,64 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+	xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="collective.virtualtreecategories">
+
+    <browser:resourceDirectory
+        name="collective.virtualtreecategories.jsTree"
+        directory="jsTree" 
+        />
+
+    <browser:resourceDirectory
+        name="collective.virtualtreecategories.resources"
+        directory="resources" 
+        />
+    
+    <browser:page
+         name="virtualtreecategories-controlpanel"
+         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+         class=".controlpanel.VirtualTreeCategoriesSettingsView"
+         template="controlpanel.pt"
+         layer="..interfaces.IVirtualTreeCategoriesSpecific"
+         permission="cmf.ManagePortal"
+    />
+
+
+    <browser:pages
+        for="*"
+        permission="cmf.ManagePortal"
+        class=".controlpanel.CategoryKeywords"
+        layer="..interfaces.IVirtualTreeCategoriesSpecific">
+        
+        <browser:page
+            name="vtc-category-keywords"
+            attribute="get_category_keywords"
+            /> 
+    
+        <browser:page
+            name="vtc-category-save-keywords"
+            attribute="save_category_keywords"
+            /> 
+    
+        <browser:page
+            name="vtc-categories-tree.json"
+            attribute="categories_tree"
+            /> 
+
+        <browser:page
+            name="vtc-category-added-renamed"
+            attribute="category_added_renamed"
+            /> 
+
+        <browser:page
+            name="vtc-category-removed"
+            attribute="category_removed"
+            /> 
+            
+        <browser:page
+            name="vtc-list-keywords_by_categories"
+            attribute="list_keywords_by_categories"
+            />
+            
+    </browser:pages>
+    
+</configure>

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<object name="portal_skins">
+
+ <object name="virtualtreecategories"
+    meta_type="Filesystem Directory View"
+    directory="collective.virtualtreecategories:skins/virtualtreecategories"/>
+
+ <skin-path name="*">
+  <layer name="virtualtreecategories"
+     insert-after="custom"/>
+ </skin-path>
+
+</object>
