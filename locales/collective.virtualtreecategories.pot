@@ -1,0 +1,35 @@
+# --- PLEASE EDIT THE LINES BELOW CORRECTLY ---
+# SOME DESCRIPTIVE TITLE.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2009-09-01 19:23+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: en\n"
+"Language-Name: English\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: collective.virtualtreecategories\n"
+
+#. Default: "Virtual tree categories settings"
+#: ./profiles/default/actionicons.xml
+#: ./profiles/default/controlpanel.xml
+msgid "Virtual tree categories settings"
+msgstr ""
+
+#. Default: "Unselect all nodes to show all available keywords"
+#: ./skins/virtualtreecategories/virtualtreecategories_widget.pt:72
+msgid "help_categories_tree"
+msgstr ""
+
+#. Default: "Here you may define virtual categories as tree. The same tree you create here will be available on the widget used eg. for Categories (Subject) field. You should create tree nodes first and assign few keywords to the each tree node. Start with right click to the Root node. Don't forget to save selected keywords after change."
+#: ./browser/controlpanel.pt:43
+msgid "help_vtc_configuration_panel"
+msgstr ""
+
