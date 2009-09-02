@@ -8,6 +8,7 @@
     i18n_domain="collective.virtualtreecategories">
 
     <five:registerPackage package="." initialize=".initialize" />
+    <include package="collective.js.jquery" />
     <include package=".browser" />
     
     <i18n:registerTranslations directory="locales" />

@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '0.1'
+version = '0.1.2'
 
 tests_require = ['collective.testcaselayer']
 
@@ -30,6 +30,7 @@ setup(name='collective.virtualtreecategories',
           'setuptools',
           # -*- Extra requirements: -*-
           'simplejson',
+          'collective.js.jquery',
           'Products.AddRemoveWidget'
       ],
       tests_require=tests_require,
