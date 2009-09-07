@@ -24,10 +24,3 @@ registerWidget(VirtualTreeCategoriesWidget,
                description=('You can filter out unwanted available keywords'),
                used_for=('Products.Archetypes.Field.LinesField',)
                )
-
-# print "Rebinding ATDocument 'Subject' widget"
-# from collective.virtualtreecategories.widget import VirtualTreeCategoriesWidget
-# from Products.ATContentTypes.content.document import ATDocumentSchema
-# old = ATDocumentSchema['subject'].widget
-# ATDocumentSchema['subject'].widget = VirtualTreeCategoriesWidget(label=old.label, description=old.description)
-# del old

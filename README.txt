@@ -17,12 +17,9 @@ content-keywords assignment stays untouched.
 
 Please note, this package '''does not''' replace AT KeywordWidget of Subject
 (Categories) field. It means you may define categories tree but you can't test
-keyword selection in the conten type Categorization tab. You may uncomment part
-of code in widget.py or use the following example in your custom package::
-
-    from collective.virtualtreecategories.widget import VirtualTreeCategoriesWidget
-    from Products.ATContentTypes.content.document import ATDocumentSchema
-    old = ATDocumentSchema['subject'].widget
-    ATDocumentSchema['subject'].widget = VirtualTreeCategoriesWidget(label=old.label, description=old.description)
-    del old
+keyword selection in the content type Categorization tab. It is recommended to
+write custom package and with help of archetypes.schemaextender ISchemaModifier
+implement custom integration. There is existing package
+collective.keywordwidgetreplacer which does the same but replaces KeywordWidget
+with AddRemoveWidget.
 
