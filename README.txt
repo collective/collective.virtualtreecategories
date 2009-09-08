@@ -15,11 +15,17 @@ stored in the same way as in Plone default so storage is 100% compatible and
 don't require any migrations. You can always remove this package and your
 content-keywords assignment stays untouched.
 
-Please note, this package '''does not''' replace AT KeywordWidget of Subject
-(Categories) field. It means you may define categories tree but you can't test
-keyword selection in the content type Categorization tab. It is recommended to
-write custom package and with help of archetypes.schemaextender ISchemaModifier
-implement custom integration. There is existing package
-collective.keywordwidgetreplacer which does the same but replaces KeywordWidget
-with AddRemoveWidget.
+The controlpanel contains checkbox, which allows to set the
+VirtualTreeCategories widget as default widget for the Subject field of all
+Archetypes based content types.
+
+Control panel
+-------------
+
+.. figure:: http://plone.org/products/collective.virtualtreecategories/documentation/manuals/project-description/Control%20panel.png/image_preview
+
+Archetypes widget
+-----------------
+
+.. figure:: http://plone.org/products/collective.virtualtreecategories/documentation/manuals/project-description/AT%20Widget.png/image_preview
 

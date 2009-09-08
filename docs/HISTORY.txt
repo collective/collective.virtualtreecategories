@@ -1,6 +1,15 @@
 Changelog
 =========
 
+0.2 - 2009-09-08
+----------------
+
+* controlpanel - added list of currently assigned keywords to the category
+
+* added extender which allows to fiddle AT schema and show VTCWidget instead
+  of KeywordWidget. It is possible to switch widget on/off in the
+  controlpanel.
+
 0.1.3 - 2009-09-07
 ------------------
 

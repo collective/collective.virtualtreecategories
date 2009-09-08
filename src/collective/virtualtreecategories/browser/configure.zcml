@@ -22,7 +22,6 @@
          permission="cmf.ManagePortal"
     />
 
-
     <browser:pages
         for="*"
         permission="cmf.ManagePortal"
