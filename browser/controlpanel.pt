@@ -50,6 +50,10 @@
         <div>
             <ul id="VTCTree"></ul>
             <div id="keywords" style="display: none">
+                <div id="assigned-keywords" style="display: none">
+                    <div i18n:translate="text_current_keywords">Currently assigned keywords:</div>
+                    <div id="assigned-keywords-list"></div>
+                </div>
                 <select name="keywords" multiple="multiple" size="20">
                     <option tal:repeat="opt view/all_keywords"
                             tal:content="opt"
@@ -62,6 +66,22 @@
                     <button id="save-keywords" class="allowMultiSubmit">Save</button>
                 </div>
             </div>
+
+            <div class="visualClear"><!-- --></div>
+            <form method="post"
+                      action="#"
+                      tal:attributes="action string:${portal_url}/virtualtreecategories-controlpanel">
+                  <fieldset>
+                      <legend>Setup</legend>
+                      <input type="hidden" name="replace_widget_marker" value="1">
+                      <input type="checkbox" name="replace_widget" value="1" id="replace_widget"
+                              tal:attributes="checked view/widget_replaced" />
+                      <label for="replace_widget" i18n:translate="label_replace_widget">Replace widget of Subject field with Virtual tree categories widget?</label>
+                      <br />
+                      <input type="submit" name="Submit" value="Submit" id="submit-button" i18n:attributes="value button_submit">
+                  </fieldset>
+            </form>
+
             <script type="text/javascript">
                 var $tree = jq('ul#VTCTree');
                 var keywords_changed = false;
@@ -86,6 +106,13 @@
                                     jq(this).removeAttr('selected')
                                 }
                             });
+                            if (keywords.length > 0) {
+                                jq("#assigned-keywords-list").html(keywords.join(', '));
+                                jq("#assigned-keywords").show();
+                            } else {
+                                jq("#assigned-keywords-list").empty();
+                                jq("#assigned-keywords").hide();
+                            }
                         },
                         'json'
                     );
@@ -140,11 +167,18 @@
                                     kws: kws
                                 }, 
                                 function(data) {
-                                    jq.jGrowl(data, { life: 1500 });
+                                    jq.jGrowl(data.message, { life: 1500 });
                                     keywords_changed = false;
                                     jq('#save-area').hide();
+                                    if (data.keywords.length > 0) {
+                                        jq("#assigned-keywords-list").html(data.keywords.join(', '));
+                                        jq("#assigned-keywords").show();
+                                    } else {
+                                        jq("#assigned-keywords-list").empty();
+                                        jq("#assigned-keywords").hide();
+                                    }
                                 }, 
-                                'text');
+                                'json');
                     }
                 });
                 $tree.tree({

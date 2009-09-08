@@ -11,7 +11,8 @@ from collective.virtualtreecategories.interfaces import IVirtualTreeCategoryConf
                                                         VirtualTreeCategoriesError
                                                         
 from collective.virtualtreecategories.config import CATEGORY_SPLITTER, \
-                                                    VTC_ANNOTATIONS_KEY
+                                                    VTC_ANNOTATIONS_KEY, \
+                                                    VTC_ENABLED_ANNOTATIONS_KEY
 from BTrees.OOBTree import OOBTree
 from zope.app.container.ordered import OrderedContainer
 
@@ -43,6 +44,13 @@ class VirtualTreeCategoryConfiguration(object):
         self.ann = IAnnotations(context)
         # category set here as root is not exposed to the public
         self.storage = self.ann.setdefault(VTC_ANNOTATIONS_KEY, Category('root-node', 'Root'))
+
+    def get_enabled(self):
+        return self.ann.get(VTC_ENABLED_ANNOTATIONS_KEY, False)
+
+    def set_enabled(self, value):
+        self.ann[VTC_ENABLED_ANNOTATIONS_KEY] = value
+    enabled = property(get_enabled, set_enabled)
 
     def _find_node(self, category_path):
         """ Returns node in path or root node """

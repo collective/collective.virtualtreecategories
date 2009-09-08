@@ -9,12 +9,21 @@
 
     <five:registerPackage package="." initialize=".initialize" />
     <include package="collective.js.jquery" />
+    <include package="archetypes.schemaextender" />
     <include package=".browser" />
     
     <i18n:registerTranslations directory="locales" />
     <cmf:registerDirectory name="virtualtreecategories"/>
 
     <adapter factory=".storage.VirtualTreeCategoryConfiguration" />
+
+    <five:implements
+        interface=".interfaces.IVirtualTreeCategoryWidgetAware"
+        class="Products.Archetypes.ExtensibleMetadata.ExtensibleMetadata" />
+
+    <adapter factory=".extender.VirtualTreeCategoriesWidgetModifier"
+             provides="archetypes.schemaextender.interfaces.ISchemaModifier"
+             name="collective.virtualtreecategories.widgetmodifier" />
     
     <class class="Products.CMFPlone.Portal.PloneSite">
         <!-- Configuration is stored as annotations -->

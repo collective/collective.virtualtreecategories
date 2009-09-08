@@ -6,6 +6,10 @@ class IVirtualTreeCategoriesSpecific(IDefaultPloneLayer):
     """Marker interface that defines a Zope 3 browser layer.
     """
 
+class IVirtualTreeCategoryWidgetAware(Interface):
+    """ Marker interface for schemamodifier which replaces KeywordWidget of 
+        the Subject field with VTC widget"""
+
 class IVirtualTreeCategoryConfiguration(Interface):
     """ Configuration adapter which allows to set/read categories 
         from the stroage """

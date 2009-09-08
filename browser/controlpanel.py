@@ -1,7 +1,7 @@
 import simplejson
 from Acquisition import aq_inner
 from zope.interface import implements
-from zope.component import getMultiAdapter, getUtility
+from zope.component import getMultiAdapter, getUtility, adapts
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.memoize import view
@@ -9,15 +9,17 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from collective.virtualtreecategories.browser.interfaces import IVirtualTreeCategoriesSettingsView
 from collective.virtualtreecategories.interfaces import IVirtualTreeCategoryConfiguration
+from collective.virtualtreecategories.interfaces import IVirtualTreeCategoryWidgetAware
 from collective.virtualtreecategories.config import CATEGORY_SPLITTER
 import logging
 from sets import Set
 
 logger = logging.getLogger('vtc-controlpanel')
-        
+
 class VirtualTreeCategoriesSettingsView(BrowserView):
     implements(IVirtualTreeCategoriesSettingsView)
-
+    adapts(IPloneSiteRoot)
+    
     template=ViewPageTemplateFile('controlpanel.pt')
 
     @view.memoize_contextless
@@ -39,6 +41,20 @@ class VirtualTreeCategoriesSettingsView(BrowserView):
         vals =  list(self.tools().catalog().uniqueValuesFor('Subject'))
         vals.sort()
         return vals
+        
+    def widget_replaced(self):
+        """ returns true if widget is currently being replaced """
+        storage = IVirtualTreeCategoryConfiguration(self.context)
+        return storage.enabled
+        
+    def __call__(self):
+        if self.request.form.get('replace_widget_marker', '0') == '1':
+            # form submitted
+            value = self.request.form.get('replace_widget', False) == '1'
+            storage = IVirtualTreeCategoryConfiguration(self.context)
+            storage.enabled = value
+            # todo portal message
+        return self.template()
         
 class CategoryKeywords(BrowserView):
     
@@ -77,7 +93,7 @@ class CategoryKeywords(BrowserView):
     def save_category_keywords(self):
         portal = getUtility(IPloneSiteRoot)
         category_path = self._category_path_from_request()
-        kws = self.request.form.get('kws')
+        kws = self.request.form.get('kws', [])
         if isinstance(kws, basestring):
             kws = kws.split(',')
         if not category_path:
@@ -85,7 +101,10 @@ class CategoryKeywords(BrowserView):
         logger.info('Going to save %d keywords to category %r' % (len(kws), category_path))
         IVirtualTreeCategoryConfiguration(portal).set(category_path, kws)
         self.request.response.setHeader('Content-Type', 'text/plain; charset=utf-8')
-        return 'Category %s saved' % category_path[-1]
+        return simplejson.dumps(dict(
+                                    message='Category %s saved' % category_path[-1],
+                                    keywords=kws
+                                    ))
 
     def categories_tree(self):
         self.request.response.setHeader('Content-Type', 'application/json; charset=utf-8')
