@@ -1,6 +1,13 @@
 Changelog
 =========
 
+0.2.1 - 2009-10-20
+------------------
+
+* fixed first-edit-bug in case of edited content is in portal_factory. Thanks
+  Jerome Chambard for pointing to it.
+  [naro]
+
 0.2 - 2009-09-08
 ----------------
 
