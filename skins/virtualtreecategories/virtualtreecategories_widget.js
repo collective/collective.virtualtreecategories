@@ -28,7 +28,7 @@
                 } 
                 selected_categories[selected_categories.length] = sc;
             });
-            jq.post('vtc-list-keywords_by_categories',
+            jq.post(portal_url+'/vtc-list-keywords_by_categories',
                     {  categories: selected_categories,
                        selected: selected_keywords
                     },
@@ -44,7 +44,7 @@
         $tree.tree({
                         data  : {
                           type  : "json",
-                          url   : "@@vtc-categories-tree.json",
+                          url   : portal_url+"/@@vtc-categories-tree.json",
                           async : false
                         },
                         ui : {
