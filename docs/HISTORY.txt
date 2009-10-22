@@ -1,6 +1,12 @@
 Changelog
 =========
 
+0.2.2 - 2009-10-22
+------------------
+
+* fixed helper browser view permissions. Thanks Florent MICHON for the patch.
+  [naro, f10w]
+
 0.2.1 - 2009-10-20
 ------------------
 

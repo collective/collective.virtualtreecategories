@@ -24,6 +24,24 @@
 
     <browser:pages
         for="*"
+        permission="zope2.View"
+        class=".controlpanel.CategoryKeywords"
+        layer="..interfaces.IVirtualTreeCategoriesSpecific">
+
+        <browser:page
+            name="vtc-categories-tree.json"
+            attribute="categories_tree"
+            /> 
+
+        <browser:page
+            name="vtc-list-keywords_by_categories"
+            attribute="list_keywords_by_categories"
+            />
+        
+    </browser:pages>
+        
+    <browser:pages
+        for="*"
         permission="cmf.ManagePortal"
         class=".controlpanel.CategoryKeywords"
         layer="..interfaces.IVirtualTreeCategoriesSpecific">
@@ -37,11 +55,6 @@
             name="vtc-category-save-keywords"
             attribute="save_category_keywords"
             /> 
-    
-        <browser:page
-            name="vtc-categories-tree.json"
-            attribute="categories_tree"
-            /> 
 
         <browser:page
             name="vtc-category-added-renamed"
@@ -52,11 +65,6 @@
             name="vtc-category-removed"
             attribute="category_removed"
             /> 
-            
-        <browser:page
-            name="vtc-list-keywords_by_categories"
-            attribute="list_keywords_by_categories"
-            />
             
     </browser:pages>
     
