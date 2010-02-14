@@ -1,0 +1,36 @@
+# --- PLEASE EDIT THE LINES BELOW CORRECTLY ---
+# SOME DESCRIPTIVE TITLE.
+# UGent Portaalteam <portaal@ugent.be>, 2010.
+msgid ""
+msgstr ""
+"Project-Id-Version: collective.virtualtreecategories\n"
+"POT-Creation-Date: 2010-02-14 13:36+0000\n"
+"PO-Revision-Date: 2010-02-14 13:35+0000\n"
+"Last-Translator: UGent Portaalteam <portaal@ugent.be>\n"
+"Language-Team: UGent Portaalteam <portaal@ugent.be>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: nl\n"
+"Language-Name: Dutch\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: collective.virtualtreecategories\n"
+
+
+#. Default: "Virtual tree categories settings"
+#: ./profiles/default/actionicons.xml
+#: ./profiles/default/controlpanel.xml
+msgid "Virtual tree categories settings"
+msgstr "Configuratie Virtual Tree Categories"
+
+#. Default: "Unselect all nodes to show all available keywords"
+#: ./skins/virtualtreecategories/virtualtreecategories_widget.pt:72
+msgid "help_categories_tree"
+msgstr "Deselecteer al de nodes om alle beschikbare sleutelwoorden te zien."
+
+#. Default: "Here you may define virtual categories as tree. The same tree you create here will be available on the widget used eg. for Categories (Subject) field. You should create tree nodes first and assign few keywords to the each tree node. Start with right click to the Root node. Don't forget to save selected keywords after change."
+#: ./browser/controlpanel.pt:43
+msgid "help_vtc_configuration_panel"
+msgstr "Hier kun je virtuele categorieën aanmaken in een boomstructuur. Diezelfde boomstructuur zal beschikbaar zijn op de widget om sleutelwoorden te kunnen selecteren. Begin met het aanmaken van enkele categorieën en wijs enkele sleutelwoorden toe aan elke categorie. Start met een rechtermuisklik op de root-node. Niet vergeten om de geselecteerde sleutelwoorden te bewaren na wijziging."
+
