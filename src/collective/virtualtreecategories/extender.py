@@ -35,14 +35,18 @@ class VirtualTreeCategoriesWidgetModifier(object):
                     oldlabel = field.widget.label
                     olddesc  = field.widget.description
                     roleBasedAdd = getattr(field.widget, 'roleBasedAdd', False)
-                    field.widget = VirtualTreeCategoriesWidget(label=oldlabel,
+                    new_field = field.copy()
+                    new_field.widget = VirtualTreeCategoriesWidget(label=oldlabel,
                                                                description = olddesc,
                                                                role_based_add = roleBasedAdd)
+                    schema.replaceField('subject', new_field)
             elif isinstance(field.widget, VirtualTreeCategoriesWidget):
                 # use KeywordWidget, because someone turned VTC on and then off
                 oldlabel = field.widget.label
                 olddesc  = field.widget.description
                 roleBasedAdd = getattr(field.widget, 'role_based_add', False)
-                field.widget = KeywordWidget(label=oldlabel,
+                new_field = field.copy()
+                new_field.widget = KeywordWidget(label=oldlabel,
                                              description = olddesc,
                                              roleBasedAdd = roleBasedAdd)
+                schema.replaceField('subject', new_field)
