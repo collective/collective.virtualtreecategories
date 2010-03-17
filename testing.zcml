@@ -1,0 +1,13 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="collective.carousel">
+
+    <include package="." file="configure.zcml" />
+
+    <!-- Test specific views
+    see eg. http://svn.plone.org/svn/collective/collective.carousel/trunk/collective/carousel/testing.zcml -->
+    
+
+</configure>

@@ -1,0 +1,96 @@
+Use second Plone site to test the behaviour on two sites
+
+    >>> from collective.virtualtreecategories.interfaces import \
+    ...                         IVirtualTreeCategoryConfiguration, \
+    ...                         IVirtualTreeCategoriesSpecific
+    >>> from Products.Archetypes.interfaces import ISchema
+    >>> from Products.Archetypes.Widget import KeywordWidget
+    >>> from plone.browserlayer.utils import registered_layers
+    >>> from zope.app.component.hooks import setSite
+    >>> from collective.virtualtreecategories.widget import \
+    ...                               VirtualTreeCategoriesWidget
+
+Test extender (fiddler) on the first site only
+    
+    >>> site1 = self.app.plone
+    >>> setSite(site1)
+    
+    check VTC is installed (browser layer is registered)
+
+    >>> IVirtualTreeCategoriesSpecific in registered_layers()
+    True
+
+    Let's try disabled VTC first
+
+    >>> config = IVirtualTreeCategoryConfiguration(site1)
+    >>> doc = site1['front-page']
+    >>> config.enabled = False
+    >>> schema1 = ISchema(doc)
+    
+    This schema should not use VTC widget for the 'subject' field
+    
+    >>> field = schema1['subject']
+    >>> isinstance(field.widget, VirtualTreeCategoriesWidget)
+    False
+    >>> isinstance(field.widget, KeywordWidget)
+    True
+
+    Enable VTC and try it again
+    
+    >>> config.enabled = True
+    >>> schema1 = ISchema(doc)
+    >>> field = schema1['subject']
+    >>> isinstance(field.widget, VirtualTreeCategoriesWidget)
+    True
+    >>> isinstance(field.widget, KeywordWidget)
+    False
+    
+Ok, let's test this behaviour on the second Plone site
+
+    >>> config.enabled = False
+    >>> schema1 = ISchema(doc)
+    >>> site2 = self.app.plone2
+    >>> setSite(site2)
+    
+    Be sure VTC is not installed on the second site
+    
+    >>> IVirtualTreeCategoriesSpecific in registered_layers()
+    False
+    
+    This schema should not use VTC widget for the 'subject' field
+    
+    >>> setSite(site2)
+    >>> doc2 = site2['front-page']
+    >>> schema2 = ISchema(doc2)
+    >>> field = schema2['subject']
+    >>> isinstance(field.widget, VirtualTreeCategoriesWidget)
+    False
+    >>> isinstance(field.widget, KeywordWidget)
+    True
+
+    Enable VTC on the first site and access the schema
+
+    >>> setSite(site1)    
+    >>> config.enabled = True
+    >>> schema1 = ISchema(doc)
+    
+    And check the second site again. VTC must be still disabled
+    
+    >>> setSite(site2)
+    >>> schema2 = ISchema(doc2)
+    >>> field = schema2['subject']
+    >>> isinstance(field.widget, VirtualTreeCategoriesWidget)
+    False
+    >>> isinstance(field.widget, KeywordWidget)
+    True
+   
+    but enabled on the first site
+    
+    >>> setSite(site1)
+    >>> schema1 = ISchema(doc)
+    >>> field = schema1['subject']
+    >>> isinstance(field.widget, VirtualTreeCategoriesWidget)
+    True
+    >>> isinstance(field.widget, KeywordWidget)
+    False
+    
