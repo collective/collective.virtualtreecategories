@@ -93,7 +93,7 @@
                         tal:attributes="id          fromBox;
                                         name        fromBox;
                                         style       string:${widthSpec}:${width};
-                                        tabindex    tabindex/next;
+                                        tabindex    tabindex/next | nothing;
                                         size        size;
                                         onDblClick  string:addremove_addItem('${fieldName}')">
                   <tal:block repeat="item vocabulary/keys">
@@ -111,12 +111,12 @@
                 <input type="button" value="Add &gt;"
                        style="width: 100%;" onClick=""
                        i18n:attributes="value button_add_item;"
-                       tal:attributes="tabindex tabindex/next;
+                       tal:attributes="tabindex tabindex/next | nothing;
                                     onClick  string:addremove_addItem('${fieldName}')"/><br/>
                 <input type="button" value="&lt; Remove"
                        style="width: 100%; margin: 0"
                        i18n:attributes="value button_remove_item;"
-                       tal:attributes="tabindex tabindex/next;
+                       tal:attributes="tabindex tabindex/next | nothing;
                                        onClick  string:addremove_removeItem('${fieldName}')"/>
             </td>
             <!-- To box -->
@@ -134,7 +134,7 @@
                         tal:attributes="id       toBox;
                                         name     toBox;
                                         style    string:${widthSpec}:${width};
-                                        tabindex tabindex/next;
+                                        tabindex tabindex/next | nothing;
                                         size     size;
                                         onDblClick  string:addremove_removeItem('${fieldName}')">
                   <option value="#"
@@ -161,7 +161,7 @@
                            style="width: 100%; margin: 0"
                            onClick=""
                            i18n:attributes="value button_add_new_item;"
-                           tal:attributes="tabindex tabindex/next;
+                           tal:attributes="tabindex tabindex/next | nothing;
                                            onClick  string:addremove_addNewItem('${fieldName}')"/>
                 </div>
             </td>

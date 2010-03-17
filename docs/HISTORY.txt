@@ -4,6 +4,10 @@ Changelog
 0.2.3 - 2010-03-17
 ------------------
 
+* initial Plone 4 compatibility. It works except rendering issues on the
+  controlpanel.
+  [naro]
+
 * fixed problem with more than one Plone site in the zope instance.
   Thanks Rui Guerra for bug report.
   [naro]
