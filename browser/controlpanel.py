@@ -1,30 +1,31 @@
 import simplejson
-from Acquisition import aq_inner
+#from Acquisition import aq_inner
 from zope.interface import implements
 from zope.component import getMultiAdapter, getUtility, adapts
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.memoize import view
-from Products.CMFCore.utils import getToolByName
+#from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from collective.virtualtreecategories.browser.interfaces import IVirtualTreeCategoriesSettingsView
 from collective.virtualtreecategories.interfaces import IVirtualTreeCategoryConfiguration
-from collective.virtualtreecategories.interfaces import IVirtualTreeCategoryWidgetAware
-from collective.virtualtreecategories.config import CATEGORY_SPLITTER
+#from collective.virtualtreecategories.interfaces import IVirtualTreeCategoryWidgetAware
+#from collective.virtualtreecategories.config import CATEGORY_SPLITTER
 import logging
-from sets import Set
+#from sets import Set
 
 logger = logging.getLogger('vtc-controlpanel')
+
 
 class VirtualTreeCategoriesSettingsView(BrowserView):
     implements(IVirtualTreeCategoriesSettingsView)
     adapts(IPloneSiteRoot)
-    
+
     template=ViewPageTemplateFile('controlpanel.pt')
 
     @view.memoize_contextless
     def tools(self):
-        """ returns tools view. Available items are all portal_xxxxx 
+        """ returns tools view. Available items are all portal_xxxxx
             For example: catalog, membership, url
             http://dev.plone.org/plone/browser/plone.app.layout/trunk/plone/app/layout/globals/tools.py
         """
@@ -32,21 +33,21 @@ class VirtualTreeCategoriesSettingsView(BrowserView):
 
     @view.memoize_contextless
     def portal_state(self):
-        """ returns 
+        """ returns
             http://dev.plone.org/plone/browser/plone.app.layout/trunk/plone/app/layout/globals/portal.py
         """
         return getMultiAdapter((self.context, self.request), name=u"plone_portal_state")
 
     def all_keywords(self):
-        vals =  list(self.tools().catalog().uniqueValuesFor('Subject'))
+        vals = list(self.tools().catalog().uniqueValuesFor('Subject'))
         vals.sort()
         return vals
-        
+
     def widget_replaced(self):
         """ returns true if widget is currently being replaced """
         storage = IVirtualTreeCategoryConfiguration(self.context)
         return storage.enabled
-        
+
     def __call__(self):
         if self.request.form.get('replace_widget_marker', '0') == '1':
             # form submitted
@@ -55,12 +56,13 @@ class VirtualTreeCategoriesSettingsView(BrowserView):
             storage.enabled = value
             # todo portal message
         return self.template()
-        
+
+
 class CategoryKeywords(BrowserView):
-    
+
     @view.memoize_contextless
     def tools(self):
-        """ returns tools view. Available items are all portal_xxxxx 
+        """ returns tools view. Available items are all portal_xxxxx
             For example: catalog, membership, url
             http://dev.plone.org/plone/browser/plone.app.layout/trunk/plone/app/layout/globals/tools.py
         """
@@ -79,7 +81,7 @@ class CategoryKeywords(BrowserView):
         # omit root node
         category_path = category_path and category_path[1:]
         return category_path
-    
+
     def get_category_keywords(self):
         self.request.response.setHeader('Content-Type', 'application/json; charset=utf-8')
         portal = getUtility(IPloneSiteRoot)
@@ -111,8 +113,8 @@ class CategoryKeywords(BrowserView):
         storage = IVirtualTreeCategoryConfiguration(getUtility(IPloneSiteRoot))
         # inject root node
         root = dict(
-          attributes = { 'id' : "root-node", 'rel': 'root' }, 
-          state = "open", 
+          attributes = {'id': "root-node", 'rel': 'root'},
+          state = "open",
           data = "Root node",
           children = storage.category_tree()
          )
@@ -154,27 +156,26 @@ class CategoryKeywords(BrowserView):
                                                new_id = '',
                                                result = False))
         return result
-        
+
     def category_removed(self):
         storage = IVirtualTreeCategoryConfiguration(getUtility(IPloneSiteRoot))
         category_path = self._category_path_from_request()
         if not category_path:
-           msg = 'You can''t not remove root category. Please reload page.'
+            msg = 'You can''t not remove root category. Please reload page.'
         else:
             result = storage.remove_category(category_path)
             if result:
-               msg = 'Category removed.'
+                msg = 'Category removed.'
             else:
-               msg = 'Could not remove category. Please reload page.'
-        return simplejson.dumps(dict( msg = msg,
-                                      result = result))
+                msg = 'Could not remove category. Please reload page.'
+        return simplejson.dumps(dict(msg=msg, result=result))
 
     def list_keywords_by_categories(self):
         storage = IVirtualTreeCategoryConfiguration(getUtility(IPloneSiteRoot))
         # categories - list of lists where the sublist is category_path
         categories = self.request.form.get('categories', [])
         # list of keywords already assigned to the content
-        selected   = self.request.form.get('selected', [])
+        selected = self.request.form.get('selected', [])
         if isinstance(categories, basestring):
             categories = [categories]
         if isinstance(selected, basestring):
@@ -185,7 +186,7 @@ class CategoryKeywords(BrowserView):
                 path = self._category_path_from_request(category)
                 result.update(storage.get(path))
         else:
-            result =  set(self.tools().catalog().uniqueValuesFor('Subject'))
+            result = set(self.tools().catalog().uniqueValuesFor('Subject'))
             sorted(result)
         result = result.difference(selected)
         return simplejson.dumps(dict(keywords=list(result)))
