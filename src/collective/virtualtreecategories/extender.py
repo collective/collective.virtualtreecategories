@@ -14,39 +14,44 @@ from collective.virtualtreecategories.interfaces import IVirtualTreeCategoryConf
 from collective.virtualtreecategories.interfaces import IVirtualTreeCategoryWidgetAware
 from collective.virtualtreecategories.widget import VirtualTreeCategoriesWidget
 
-# VirtualTreeCategories widget modifier
+
 class VirtualTreeCategoriesWidgetModifier(object):
-    
+    """VirtualTreeCategories widget modifier"""
+
     adapts(IVirtualTreeCategoryWidgetAware)
     implements(ISchemaModifier, IBrowserLayerAwareExtender)
-    
+
     layer = IVirtualTreeCategoriesSpecific
-    
+
     def __init__(self, context):
         self.context = context
 
-    def fiddle(self,schema):
+    def fiddle(self, schema):
         portal = getUtility(IPloneSiteRoot)
         storage = IVirtualTreeCategoryConfiguration(portal)
         field = schema.get('subject', None)
+
         if field:
             if storage.enabled:
                 if not isinstance(field.widget, VirtualTreeCategoriesWidget):
                     oldlabel = field.widget.label
-                    olddesc  = field.widget.description
+                    olddesc = field.widget.description
                     roleBasedAdd = getattr(field.widget, 'roleBasedAdd', False)
                     new_field = field.copy()
-                    new_field.widget = VirtualTreeCategoriesWidget(label=oldlabel,
-                                                               description = olddesc,
-                                                               role_based_add = roleBasedAdd)
+                    new_field.widget = VirtualTreeCategoriesWidget(
+                                           label=oldlabel,
+                                           description=olddesc,
+                                           role_based_add=roleBasedAdd)
                     schema.replaceField('subject', new_field)
+
             elif isinstance(field.widget, VirtualTreeCategoriesWidget):
                 # use KeywordWidget, because someone turned VTC on and then off
                 oldlabel = field.widget.label
-                olddesc  = field.widget.description
+                olddesc = field.widget.description
                 roleBasedAdd = getattr(field.widget, 'role_based_add', False)
                 new_field = field.copy()
-                new_field.widget = KeywordWidget(label=oldlabel,
-                                             description = olddesc,
-                                             roleBasedAdd = roleBasedAdd)
+                new_field.widget = KeywordWidget(
+                                       label=oldlabel,
+                                       description=olddesc,
+                                       roleBasedAdd=roleBasedAdd)
                 schema.replaceField('subject', new_field)
