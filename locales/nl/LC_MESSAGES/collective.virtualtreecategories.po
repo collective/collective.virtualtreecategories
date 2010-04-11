@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: collective.virtualtreecategories\n"
-"POT-Creation-Date: 2010-02-14 13:36+0000\n"
+"POT-Creation-Date: 2010-04-11 12:01+0000\n"
 "PO-Revision-Date: 2010-02-14 13:35+0000\n"
 "Last-Translator: UGent Portaalteam <portaal@ugent.be>\n"
 "Language-Team: UGent Portaalteam <portaal@ugent.be>\n"
@@ -17,12 +17,17 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: collective.virtualtreecategories\n"
 
-
 #. Default: "Virtual tree categories settings"
 #: ./profiles/default/actionicons.xml
 #: ./profiles/default/controlpanel.xml
+#: ./profiles/uninstall/actionicons.xml
 msgid "Virtual tree categories settings"
 msgstr "Configuratie Virtual Tree Categories"
+
+#. Default: "Submit"
+#: ./browser/controlpanel.pt:81
+msgid "button_submit"
+msgstr "Bewaren"
 
 #. Default: "Unselect all nodes to show all available keywords"
 #: ./skins/virtualtreecategories/virtualtreecategories_widget.pt:72
@@ -33,4 +38,14 @@ msgstr "Deselecteer al de nodes om alle beschikbare sleutelwoorden te zien."
 #: ./browser/controlpanel.pt:43
 msgid "help_vtc_configuration_panel"
 msgstr "Hier kun je virtuele categorieën aanmaken in een boomstructuur. Diezelfde boomstructuur zal beschikbaar zijn op de widget om sleutelwoorden te kunnen selecteren. Begin met het aanmaken van enkele categorieën en wijs enkele sleutelwoorden toe aan elke categorie. Start met een rechtermuisklik op de root-node. Niet vergeten om de geselecteerde sleutelwoorden te bewaren na wijziging."
+
+#. Default: "Replace widget of Subject field with Virtual tree categories widget?"
+#: ./browser/controlpanel.pt:79
+msgid "label_replace_widget"
+msgstr "Vervang de standaard keyword-widget van Plone met deze 'Virtual tree categories'-widget"
+
+#. Default: "Currently assigned keywords:"
+#: ./browser/controlpanel.pt:54
+msgid "text_current_keywords"
+msgstr "Huidig toegekende sleutelwoorden:"
 
