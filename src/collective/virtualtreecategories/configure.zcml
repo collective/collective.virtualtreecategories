@@ -9,15 +9,18 @@
 
   <five:registerPackage package="." initialize=".initialize" />
 
+  <!-- Include configuration for dependencies listed in setup.py -->
+  <includeDependencies package="." />
 
-  <include package="collective.js.jquery" />
-  <include package="archetypes.schemaextender" />
+  <!-- Include the sub-packages that have their own configure.zcml files -->
   <include package=".browser" />
 
-  <!-- register the translations -->
+  <!-- Register the translations -->
   <i18n:registerTranslations directory="locales" />
 
-  <cmf:registerDirectory name="virtualtreecategories"/>
+  <!-- Register the skins-folders -->
+  <cmf:registerDirectory name="skins" directory="skins" recursive="True" />
+
 
   <adapter factory=".storage.VirtualTreeCategoryConfiguration" />
 

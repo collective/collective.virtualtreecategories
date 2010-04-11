@@ -1,5 +1,6 @@
-from setuptools import setup, find_packages
 import os
+from setuptools import setup, find_packages
+
 
 version = '0.2.3'
 
@@ -38,5 +39,7 @@ setup(name='collective.virtualtreecategories',
       extras_require={'tests': tests_require},
       entry_points="""
       # -*- Entry points: -*-
+      [z3c.autoinclude.plugin]
+      target = plone
       """,
       )
