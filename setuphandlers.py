@@ -9,12 +9,13 @@ def installHandler(self):
     if not qi.isProductInstalled('AddRemoveWidget'):
         # there is no GS profile for AddRemoveWidget.
         qi.installProduct('AddRemoveWidget')
-    
+
+
 def uninstall(self):
     if self.readDataFile('virtualtreecategories-uninstall.txt') is None:
         return
 
     portal = self.getSite()
-    portal_conf=getToolByName(portal,'portal_controlpanel')
+    portal_conf = getToolByName(portal, 'portal_controlpanel')
     portal_conf.unregisterConfiglet('VirtualTreeCategories')
 

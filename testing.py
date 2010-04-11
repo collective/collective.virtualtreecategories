@@ -4,6 +4,7 @@ from Products.PloneTestCase.PloneTestCase import installPackage
 
 from collective.testcaselayer import ptc as tcl_ptc
 
+
 class Layer(tcl_ptc.BasePTCLayer):
     """ set up basic testing layer """
 
@@ -22,11 +23,13 @@ from zope.annotation.attribute import AttributeAnnotations
 from zope.component import provideAdapter
 from collective.testcaselayer import ztc as tcl_ztc
 
+
 class AttributeAnnotationsLayer(tcl_ztc.BaseZTCLayer):
     """Install annotations """
 
     def afterSetUp(self):
         provideAdapter(AttributeAnnotations)
+
 
 layer = Layer(bases=[tcl_ptc.ptc_layer])
 annotations_layer = AttributeAnnotationsLayer([tcl_ztc.ztc_layer])

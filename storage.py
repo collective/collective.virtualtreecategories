@@ -1,15 +1,15 @@
 from zope.interface import implements
 from zope.component import adapts, getUtility
 from zope.annotation import IAnnotations
-from persistent.dict import PersistentDict
-from persistent.list import PersistentList
-from persistent import Persistent
+#from persistent.dict import PersistentDict
+#from persistent.list import PersistentList
+#from persistent import Persistent
 from plone.i18n.normalizer.interfaces import IIDNormalizer
 from Products.CMFPlone.utils import safe_unicode
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from collective.virtualtreecategories.interfaces import IVirtualTreeCategoryConfiguration, \
                                                         VirtualTreeCategoriesError
-                                                        
+
 from collective.virtualtreecategories.config import CATEGORY_SPLITTER, \
                                                     VTC_ANNOTATIONS_KEY, \
                                                     VTC_ENABLED_ANNOTATIONS_KEY
@@ -22,11 +22,12 @@ ListTypes = (ListType, TupleType)
 import logging
 logger = logging.getLogger('virtualtreecategories-storage')
 
+
 class Category(OrderedContainer):
-    id    = ''
+    id = ''
     title = ''
     keywords = []
-    
+
     def __init__(self, id, title=''):
         # XXX: This depends on implementation detail in OrderedContainer,
         # but it uses a PersistentDict, which sucks :-/
@@ -35,10 +36,11 @@ class Category(OrderedContainer):
         self.title = title or id
         self._data = OOBTree()
 
+
 class VirtualTreeCategoryConfiguration(object):
     implements(IVirtualTreeCategoryConfiguration)
     adapts(IPloneSiteRoot)
-    
+
     def __init__(self, context):
         self.context = context
         self.ann = IAnnotations(context)
@@ -54,10 +56,10 @@ class VirtualTreeCategoryConfiguration(object):
 
     def _find_node(self, category_path):
         """ Returns node in path or root node """
-        if not isinstance(category_path, ListTypes): 
-            path = category_path.split(CATEGORY_SPLITTER) 
-        else: 
-            path = category_path 
+        if not isinstance(category_path, ListTypes):
+            path = category_path.split(CATEGORY_SPLITTER)
+        else:
+            path = category_path
         dpath = self.storage
         if category_path and path:
             # category_path may be empty string (root category)
@@ -79,18 +81,19 @@ class VirtualTreeCategoryConfiguration(object):
         return category_id
 
     def category_tree(self):
+
         def add_subkeys(node):
             res = []
             for k, category in node.items():
                 item = dict(attributes = dict(id=category.id, rel='folder'),
                             state = 'closed',
-                            data  = category.title,
+                            data = category.title,
                             children = add_subkeys(category)
                            )
                 res.append(item)
             return res
         return add_subkeys(self.storage)
-        
+
     def remove_category(self, category_path):
         node = self._find_node(category_path)
         if node is not None:
@@ -127,7 +130,7 @@ class VirtualTreeCategoryConfiguration(object):
             return new_id
         else:
             return False
-            
+
     def set(self, category_path, keywords):
         node = self._find_node(category_path)
         if node is not None:
