@@ -1,28 +1,20 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
       lang="en"
-      metal:use-macro="here/main_template/macros/master"
+      metal:use-macro="here/prefs_main_template/macros/master"
       i18n:domain="collective.virtualtreecategories">
 
 <head>
-    <metal:block fill-slot="top_slot"
-                 tal:define="dummy python:request.set('disable_border',1)" />
+    <metal:block fill-slot="top_slot">
+        <tal:defines tal:define="dummy python:request.set('disable_border',1);
+                                 disable_column_one python:request.set('disable_plone.leftcolumn',0);
+                                 disable_column_two python:request.set('disable_plone.rightcolumn',1);"/>
 
-    <metal:override fill-slot="column_one_slot">
-        <metal:prefs use-macro="here/portlet_prefs/macros/portlet" />
-    </metal:override>
-
-    <metal:override fill-slot="column_two_slot" />
-
-    <metal:css fill-slot="style_slot">
         <link rel="stylesheet" type="text/css" href="++resource++collective.virtualtreecategories.jsTree/tree_component.css" />
         <link rel="stylesheet" type="text/css" href="++resource++collective.virtualtreecategories.resources/virtualtreecategories.css" />
         <link rel="stylesheet" type="text/css" href="++resource++collective.virtualtreecategories.resources/jquery.jgrowl.css" />
-    </metal:css>
-    
-    <metal:js fill-slot="javascript_head_slot">
         <script type="text/javascript" src="++resource++collective.virtualtreecategories.resources/jquery.jgrowl.min.js"></script>
         <script type="text/javascript" src="++resource++collective.virtualtreecategories.jsTree/css.js"></script>
-        <script type="text/javascript" src="++resource++collective.virtualtreecategories.jsTree/tree_component.js"></script>
+        <script type="text/javascript" src="++resource++collective.virtualtreecategories.jsTree/jquery.tree_component.js"></script>
 
         <!-- required for xml data type -->
         <script type="text/javascript" src="++resource++collective.virtualtreecategories.jsTree/sarissa.js"></script>
@@ -33,12 +25,11 @@
         <script type="text/javascript" src="++resource++collective.virtualtreecategories.jsTree/jquery.metadata.js"></script>
         <!-- required for cookie functionality -->
         <!-- <script type="text/javascript" src="++resource++collective.virtualtreecategories.jsTree/jquery.cookie.js"></script> -->
-    </metal:js>
-
+    </metal:block>
 </head>
 
 <body>
-    <metal:override fill-slot="main">
+    <metal:override fill-slot="prefs_configlet_content">
         <h1>Virtual tree categories configuration</h1>
         <p class="documentDescription" i18n:translate="help_vtc_configuration_panel">
             Here you may define virtual categories as tree. The same tree you 
