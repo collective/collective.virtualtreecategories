@@ -435,8 +435,8 @@
 				if(this.settings.path == false) {
 					this.path = "";
 					$("script").each( function () { 
-						if(this.src.toString().match(/tree_component.*?js$/)) {
-							_this.path = this.src.toString().replace(/tree_component.*?js$/, "");
+						if(this.src.toString().match(/jquery.tree_component.*?js$/)) {
+							_this.path = this.src.toString().replace(/jquery.tree_component.*?js$/, "");
 						}
 					});
 				}
