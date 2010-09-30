@@ -7,6 +7,8 @@ Changelog
 * collective.js.jquery is optional dependency for Plone3 only. If you are
   using Plone3, please specify [plone3] extra or add sepearate dependency on
   collective.js.jquery to your buildout.
+  There is upgrade step for Plone 4, which fixes jQuery.js in 
+  portal_javascripts
   [naro]
 
 * fixed controlpanel in Plone4. Controlpanel does not use prefs_main_template.

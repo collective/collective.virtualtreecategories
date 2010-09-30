@@ -74,4 +74,14 @@
        handler=".setuphandlers.uninstall">
   </genericsetup:importStep>
 
+    <genericsetup:upgradeStep
+        title="Upgrade collective.virtualtreecategories"
+        description="Fixes jQuery for Plone4. Safe on Plone3, required on Plone4."
+        source="0.2"
+        destination="0004"
+        handler=".migration.migrateTo0004"
+        sortkey="1"
+        profile="collective.virtualtreecategories:default"
+    />        
+
 </configure>
