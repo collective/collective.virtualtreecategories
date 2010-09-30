@@ -11,8 +11,6 @@ long_description = (
     read('README.txt')
     + '\n' +
     read('CHANGES.txt')
-    + '\n' +
-    read('src', 'collective', 'virtualtreecategories', 'README.txt')
     )
 
 tests_require = ['collective.testcaselayer']
@@ -39,14 +37,15 @@ setup(name='collective.virtualtreecategories',
       zip_safe=False,
       install_requires=[
           'setuptools',
-          # -*- Extra requirements: -*-
           'simplejson',
-          'collective.js.jquery',
           'Products.AddRemoveWidget',
           'archetypes.schemaextender',
       ],
       tests_require=tests_require,
-      extras_require={'tests': tests_require},
+      extras_require={
+                'tests': tests_require,
+                'plone3': ['collective.js.jquery'],
+                },
       entry_points="""
       # -*- Entry points: -*-
       [z3c.autoinclude.plugin]
