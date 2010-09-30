@@ -1,8 +1,16 @@
 Changelog
 =========
 
-0.2.4dev (xxxx-xx-xx)
+0.2.4 (2010-09-30)
 ------------------
+
+* collective.js.jquery is optional dependency for Plone3 only. If you are
+  using Plone3, please specify [plone3] extra or add sepearate dependency on
+  collective.js.jquery to your buildout.
+  [naro]
+
+* fixed controlpanel in Plone4. Controlpanel does not use prefs_main_template.
+  [naro]
 
 * Add `z3c.autoinclude` entry point for automatic ZCML loading in Plone 3.3+.
   [WouterVH]
@@ -26,7 +34,7 @@ Changelog
 * Add more complete uninstall-profile [WouterVH]
 
 * Changing a schema via schemamodifier changes the default schema of the
-contenttypes (regardless of any browserlayer), so we need to make changes to
+  contenttypes (regardless of any browserlayer), so we need to make changes to
   a local copy of the schema. [WouterVH]
 
 

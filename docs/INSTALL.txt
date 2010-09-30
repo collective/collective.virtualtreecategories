@@ -35,6 +35,12 @@ recipe to manage your project, you can do this:
     eggs =
         ...
         collective.virtualtreecategories
+        
+  For Plone 3 please add [plone3] extra:
+
+    eggs =
+        ...
+        collective.virtualtreecategories [plone3]
        
 * Tell the plone.recipe.zope2instance recipe to install a ZCML slug:
 

@@ -19,6 +19,26 @@ The controlpanel contains checkbox, which allows to set the
 VirtualTreeCategories widget as default widget for the Subject field of all
 Archetypes based content types.
 
+Installation
+------------
+
+Install using buildout.cfg. If you want to use this product in Plone3, you
+must specify [plone3] extra due to dependency on collective.js.jquery (this
+package requires jQuery 1.3+). 
+
+Plone 3::
+
+    eggs = 
+        ...
+        collective.virtualtreecategories [plone3]
+
+Plone 4::
+
+    eggs = 
+        ...
+        collective.virtualtreecategories
+        
+
 Control panel
 -------------
 

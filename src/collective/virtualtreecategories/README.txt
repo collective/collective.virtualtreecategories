@@ -1,3 +1,4 @@
+
 Virtual tree categories
 -----------------------
 
@@ -86,14 +87,14 @@ Remove category
     
     >>> annotations['category-1']['category-1b'].get('category-1ba')
     <collective.virtualtreecategories.storage.Category object at ...>
-    >>> storage.remove_category('category-1/category-1b/category-1ba') 
+    >>> storage.remove_category('category-1/category-1b/category-1ba')
     True
     >>> annotations['category-1']['category-1b'].get('category-1ba', None) is None
     True
     
 Can't remove non existing category
     
-    >>> storage.remove_category('category-1/category-1b/category-1ba') 
+    >>> storage.remove_category('category-1/category-1b/category-1ba')
     False
 
 Rename category
@@ -129,4 +130,10 @@ Set keywords to category
     >>> storage.get('category-1/dummy')
     []
 
+Check install dependencies
 
+    >>> from Products.PloneTestCase.PloneTestCase import PLONE30, PLONE40
+    >>> if PLONE30 and not PLONE40:
+    ...     self.assertTrue(self.portal.portal_quickinstaller.isProductInstalled('collective.js.jquery'))
+    >>> if PLONE40:
+    ...     self.assertFalse(self.portal.portal_quickinstaller.isProductInstalled('collective.js.jquery'))

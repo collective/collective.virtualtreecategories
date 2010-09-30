@@ -1,4 +1,1 @@
 - localization
-- Plone 4 - rendering issues on the controlpanel
-- Plone 4 - collective.js.jquery should be disabled. Plone 4 uses jquery 1.3 
-  already
