@@ -1,6 +1,14 @@
 Changelog
 =========
 
+0.2.5 (unreleased)
+------------------
+
+* added new helper methods list_categories and list_keywords. Returns list of
+  categories in particular path (eg. root) or list of keywords assigned to
+  particular category respectively.
+  [naro]
+
 0.2.4 (2010-09-30)
 ------------------
 

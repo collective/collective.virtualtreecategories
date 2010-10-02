@@ -86,7 +86,7 @@ Let's create some additional categories and try how they are serialized for the 
 Remove category
     
     >>> annotations['category-1']['category-1b'].get('category-1ba')
-    <collective.virtualtreecategories.storage.Category object at ...>
+    <collective.virtualtreecategories.storage.Category id: category-1ba>
     >>> storage.remove_category('category-1/category-1b/category-1ba')
     True
     >>> annotations['category-1']['category-1b'].get('category-1ba', None) is None
@@ -100,13 +100,13 @@ Can't remove non existing category
 Rename category
 
     >>> annotations['category-1']['category-1a']
-    <collective.virtualtreecategories.storage.Category object at ...>
+    <collective.virtualtreecategories.storage.Category id: category-1a>
     >>> storage.rename_category('category-1/category-1a', 'category-1a', 'Fresh category name')
     'fresh-category-name'
     >>> annotations['category-1'].get('category-1a', None) is None
     True
     >>> annotations['category-1']['fresh-category-name']
-    <collective.virtualtreecategories.storage.Category object at ...>
+    <collective.virtualtreecategories.storage.Category ...>
     >>> annotations['category-1']['fresh-category-name'].id
     'fresh-category-name'
     >>> annotations['category-1']['fresh-category-name'].title
@@ -129,6 +129,17 @@ Set keywords to category
 
     >>> storage.get('category-1/dummy')
     []
+
+Test listing nodes
+
+    >>> [x.title for x in storage.list_categories('/')]
+    ['Category 1', 'Category 2']
+    >>> [x.id for x in storage.list_categories('/')]
+    ['category-1', 'category-2']
+    >>> [x.title for x in storage.list_categories('/category-1')]
+    ['Fresh category name', 'Category 1b']
+    >>> storage.list_keywords('/category-1/category-1b')
+    ['kw1', 'kw2']
 
 Check install dependencies
 

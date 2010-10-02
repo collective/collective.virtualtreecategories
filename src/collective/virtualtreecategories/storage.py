@@ -36,6 +36,8 @@ class Category(OrderedContainer):
         self.title = title or id
         self._data = OOBTree()
 
+    def __repr__(self):
+        return '<collective.virtualtreecategories.storage.Category id: %s>' % self.id
 
 class VirtualTreeCategoryConfiguration(object):
     implements(IVirtualTreeCategoryConfiguration)
@@ -68,6 +70,24 @@ class VirtualTreeCategoryConfiguration(object):
                 if dpath is None:
                     return None
         return dpath
+
+    def list_categories(self, path):
+        """ List categories on the specified path only. """
+        current = self.storage
+        for p in path.split(CATEGORY_SPLITTER):
+            if p:
+                current = current.get(p)
+        if current is not None:
+            return current.values()
+
+    def list_keywords(self, path):
+        """ List keywords assigned to specified category """
+        current = self.storage
+        for p in path.split(CATEGORY_SPLITTER):
+            if p:
+                current = current.get(p)
+        if current is not None:
+            return current.keywords
 
     def add_category(self, category_path, category_name):
         node = self._find_node(category_path)

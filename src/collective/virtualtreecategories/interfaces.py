@@ -90,6 +90,11 @@ class IVirtualTreeCategoryConfiguration(Interface):
             Returns new category id.
         """
 
+    def list_categories(path):
+        """ List categories on the specified path only. """
+        
+    def list_keywords(path):
+        """ List keywords assigned to the specified path. """
 
 class VirtualTreeCategoriesError(Exception):
     """ """
