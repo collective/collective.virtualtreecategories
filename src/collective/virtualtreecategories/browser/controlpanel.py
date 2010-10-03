@@ -161,7 +161,8 @@ class CategoryKeywords(BrowserView):
         storage = IVirtualTreeCategoryConfiguration(getUtility(IPloneSiteRoot))
         category_path = self._category_path_from_request()
         if not category_path:
-            msg = 'You can''t not remove root category. Please reload page.'
+            msg = 'You can''t remove root category. Please reload page.'
+            result = False
         else:
             result = storage.remove_category(category_path)
             if result:

@@ -4,6 +4,10 @@ Changelog
 0.2.5 (unreleased)
 ------------------
 
+* fixed data serialization in Plone4, caused by jQuery 1.4 change "Nested
+  param serialization" 
+  [naro]
+
 * added new helper methods list_categories and list_keywords. Returns list of
   categories in particular path (eg. root) or list of keywords assigned to
   particular category respectively.

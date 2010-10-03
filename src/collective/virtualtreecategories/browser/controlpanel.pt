@@ -94,26 +94,34 @@
                     jq('#selected-category-title').text(ctitle);
                     keywords_changed = false;
                     // call portal and get list of selected keywords
-                    jq.post("vtc-category-keywords", {category_path: selected_category()}, 
-                        function(plone_keywords){
-                            var keywords = plone_keywords.keywords;
-                            jq("#keywords select option").each(function(idx, obj) {
-                                if (jQuery.inArray(this.value, keywords) != -1) {
-                                    jq(this).attr('selected', 'selected')
+                    jq.ajax({
+                         type: 'POST',
+                         url: "vtc-category-keywords",
+                         data: 
+                            {
+                              'category_path': selected_category(),
+                            },
+                         success :  
+                            function(plone_keywords){
+                                var keywords = plone_keywords.keywords;
+                                jq("#keywords select option").each(function(idx, obj) {
+                                    if (jQuery.inArray(this.value, keywords) != -1) {
+                                        jq(this).attr('selected', 'selected')
+                                    } else {
+                                        jq(this).removeAttr('selected')
+                                    }
+                                });
+                                if (keywords.length > 0) {
+                                    jq("#assigned-keywords-list").html(keywords.join(', '));
+                                    jq("#assigned-keywords").show();
                                 } else {
-                                    jq(this).removeAttr('selected')
+                                    jq("#assigned-keywords-list").empty();
+                                    jq("#assigned-keywords").hide();
                                 }
-                            });
-                            if (keywords.length > 0) {
-                                jq("#assigned-keywords-list").html(keywords.join(', '));
-                                jq("#assigned-keywords").show();
-                            } else {
-                                jq("#assigned-keywords-list").empty();
-                                jq("#assigned-keywords").hide();
-                            }
-                        },
-                        'json'
-                    );
+                            },
+                         dataType: 'json',
+                         traditional: true
+                    });
                 };
                 function before_change_node() {
                     if (keywords_changed) {
@@ -159,11 +167,15 @@
                     if (category == null) {
                         jq.jGrowl('No category selected', { life: 1500 });
                     } else {
-                        jq.post("vtc-category-save-keywords", 
-                                {  
-                                    category_path: category,
-                                    kws: kws
-                                }, 
+                        jq.ajax({
+                             type: 'POST',
+                             url: "vtc-category-save-keywords",
+                             data: 
+                                {
+                                    'category_path': category,
+                                    'kws': kws
+                                },
+                             success :  
                                 function(data) {
                                     jq.jGrowl(data.message, { life: 1500 });
                                     keywords_changed = false;
@@ -175,8 +187,10 @@
                                         jq("#assigned-keywords-list").empty();
                                         jq("#assigned-keywords").hide();
                                     }
-                                }, 
-                                'json');
+                                },
+                             dataType: 'json',
+                             traditional: true
+                        })
                     }
                 });
                 $tree.tree({
@@ -202,12 +216,16 @@
                                         old_id = node.id // may be undefined (new node)
                                         new_name = jq(node).children("a:visible").text();
                                         // shared code. Server determines if creating/renaming by the old_name value
-                                        jq.post("vtc-category-added-renamed",
+                                        jq.ajax({
+                                             type: 'POST',
+                                             url: "vtc-category-added-renamed",
+                                             data: 
                                                 {
-                                                  category_path: selected_category(node),
-                                                  old_id: old_id,
-                                                  new_name: new_name
+                                                  'category_path': selected_category(node),
+                                                  'old_id': old_id,
+                                                  'new_name': new_name
                                                 },
+                                             success :  
                                                 function(data) {
                                                     jq.jGrowl(data.msg, { life: 1500 });
                                                     // set/change node id
@@ -215,20 +233,25 @@
                                                         node.id = data.new_id
                                                     }
                                                 },
-                                                'json'
-                                        )
+                                             dataType: 'json',
+                                             traditional: true
+                                        })
                                     },
                                     beforedelete: function(node, tree_obj) {
-                                        jq.post("vtc-category-removed",
+                                        jq.ajax({
+                                             type: 'POST',
+                                             url: "vtc-category-removed",
+                                             data: 
                                                 {
-                                                  category_path: selected_category(node),
+                                                  'category_path': selected_category(node)
                                                 },
+                                             success :  
                                                 function(data) {
                                                     jq.jGrowl(data.msg, { life: 3000 });
-                                                    // Can't stop the deletion :(
                                                 },
-                                                'json'
-                                        );
+                                             dataType: 'json',
+                                             traditional: true
+                                        });
                                         return true;
                                     } 
                                 }
