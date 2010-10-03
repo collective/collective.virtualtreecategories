@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.2.5 (unreleased)
+0.2.5 (2010-10-03)
 ------------------
 
 * fixed data serialization in Plone4, caused by jQuery 1.4 change "Nested
