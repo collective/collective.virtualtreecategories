@@ -28,17 +28,20 @@
                 } 
                 selected_categories[selected_categories.length] = sc;
             });
-            jq.post(portal_url+'/vtc-list-keywords_by_categories',
-                    {  categories: selected_categories,
-                       selected: selected_keywords
-                    },
-                    function(data) {
-                        var $master = jq('select#subject_unselected');
-                        $master.empty();
-                        jq.each(data.keywords, function() { $master.append('<option value="'+this+'">'+this+'</option>') });
-                    },
-                    'json'
-            )
+            jq.ajax({
+                    type:'POST',
+                    url:portal_url+'/vtc-list-keywords_by_categories',
+                    data:{  categories: selected_categories,
+                            selected: selected_keywords
+                         },
+                    success:function(data) {
+                                var $master = jq('select#subject_unselected');
+                                $master.empty();
+                                jq.each(data.keywords, function() { $master.append('<option value="'+this+'">'+this+'</option>') });
+                            },
+                    dataType: 'json',
+                    traditional: true
+            })
         };
         var $tree = jq('ul#VTCFilterTree');
         $tree.tree({

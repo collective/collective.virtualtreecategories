@@ -4,21 +4,44 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: collective.virtualtreecategories\n"
-"POT-Creation-Date: 2010-10-09 13:07+0000\n"
-"PO-Revision-Date: 2010-10-09 15:12+0100\n"
+"POT-Creation-Date: 2010-10-09 14:12+0000\n"
+"PO-Revision-Date: 2010-10-09 16:10+0100\n"
 "Last-Translator: Radim Novotny <novotny.radim@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0\n"
 "Preferred-Encodings: utf-8 latin1\n"
-"Language-Team: \n"
 
-#: ./browser/controlpanel.py:132
+#: ./browser/controlpanel.py:133
 msgid "Category created"
 msgstr "Kategorie byla vytvořena"
 
-#: ./browser/controlpanel.py:114
+#: ./browser/controlpanel.py:138
+msgid "Category creation error!"
+msgstr "Chyba při vytváření kategorie!"
+
+#: ./browser/controlpanel.py:166
+msgid "Category removed."
+msgstr "Kategorie byla smazána."
+
+#: ./browser/controlpanel.py:147
+msgid "Category renamed"
+msgstr "Kategorie byla přejmenována"
+
+#: ./browser/controlpanel.py:104
+msgid "Category saved"
+msgstr "Kategorie byla uložena."
+
+#: ./browser/controlpanel.py:168
+msgid "Could not remove category. Please reload page."
+msgstr "Nepodařilo se odebrat kategorii. Načtěte tuto stránku znovu prosím."
+
+#: ./browser/controlpanel.py:152
+msgid "Could not rename category."
+msgstr "NeNepodařilo se přejmenovat kategorii."
+
+#: ./browser/controlpanel.py:115
 msgid "Root node"
 msgstr "Hlavní úroveň"
 
@@ -27,6 +50,10 @@ msgstr "Hlavní úroveň"
 #: ./profiles/default/controlpanel.xml
 msgid "Virtual tree categories settings"
 msgstr "Nastavení virtuálních kategorií"
+
+#: ./browser/controlpanel.py:161
+msgid "You can't remove root category. Please reload page."
+msgstr "Nemůžete odebrat hlavní kategorii. Obnovte prosím stránku."
 
 #. Default: "Save"
 #: ./browser/controlpanel.pt:67

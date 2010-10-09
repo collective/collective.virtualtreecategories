@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2010-10-09 13:07+0000\n"
+"POT-Creation-Date: 2010-10-09 14:12+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,17 +17,45 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: collective.virtualtreecategories\n"
 
-#: ./browser/controlpanel.py:132
+#: ./browser/controlpanel.py:133
 msgid "Category created"
 msgstr ""
 
-#: ./browser/controlpanel.py:114
+#: ./browser/controlpanel.py:138
+msgid "Category creation error!"
+msgstr ""
+
+#: ./browser/controlpanel.py:166
+msgid "Category removed."
+msgstr ""
+
+#: ./browser/controlpanel.py:147
+msgid "Category renamed"
+msgstr ""
+
+#: ./browser/controlpanel.py:104
+msgid "Category saved"
+msgstr ""
+
+#: ./browser/controlpanel.py:168
+msgid "Could not remove category. Please reload page."
+msgstr ""
+
+#: ./browser/controlpanel.py:152
+msgid "Could not rename category."
+msgstr ""
+
+#: ./browser/controlpanel.py:115
 msgid "Root node"
 msgstr ""
 
 #: ./profiles/default/actionicons.xml
 #: ./profiles/default/controlpanel.xml
 msgid "Virtual tree categories settings"
+msgstr ""
+
+#: ./browser/controlpanel.py:161
+msgid "You can't remove root category. Please reload page."
 msgstr ""
 
 #. Default: "Save"

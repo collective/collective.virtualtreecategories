@@ -8,6 +8,7 @@ from Products.CMFPlone.interfaces import IPloneSiteRoot
 from collective.virtualtreecategories.browser.interfaces import IVirtualTreeCategoriesSettingsView
 from collective.virtualtreecategories.interfaces import IVirtualTreeCategoryConfiguration
 from collective.virtualtreecategories import VTCMessageFactory as _
+from zope.i18n import translate
 import logging
 
 logger = logging.getLogger('vtc-controlpanel')
@@ -100,7 +101,7 @@ class CategoryKeywords(BrowserView):
         IVirtualTreeCategoryConfiguration(portal).set(category_path, kws)
         self.request.response.setHeader('Content-Type', 'text/plain; charset=utf-8')
         return simplejson.dumps(dict(
-                                    message='Category %s saved' % category_path[-1],
+                                    message = translate(_('Category saved'), context=self.request),
                                     keywords=kws
                                     ))
 
@@ -111,7 +112,7 @@ class CategoryKeywords(BrowserView):
         root = dict(
           attributes = {'id': "root-node", 'rel': 'root'},
           state = "open",
-          data = _("Root node"),
+          data = translate(_("Root node"), context=self.request),
           children = storage.category_tree()
          )
         return simplejson.dumps(root)
@@ -129,12 +130,12 @@ class CategoryKeywords(BrowserView):
             new_id = storage.add_category(category_path, new_name)
             if new_id:
                 result = simplejson.dumps(dict(
-                                           msg = _(u'Category created'),
+                                           msg = translate(_(u'Category created'), context=self.request),
                                            new_id = new_id,
                                            result = True))
             else:
                 result = simplejson.dumps(dict(
-                                           msg = 'Category creation error!',
+                                           msg = translate(_(u'Category creation error!'), context=self.request),
                                            new_id = '',
                                            result = False))
         else:
@@ -143,12 +144,12 @@ class CategoryKeywords(BrowserView):
             new_id = storage.rename_category(category_path, old_id, new_name)
             if new_id:
                 result = simplejson.dumps(dict(
-                                               msg = 'Category renamed',
+                                               msg = translate(_(u'Category renamed'), context=self.request),
                                                new_id = new_id,
                                                result = True))
             else:
                 result = simplejson.dumps(dict(
-                                               msg = 'Could not rename category.',
+                                               msg = translate(_(u'Could not rename category.'), context=self.request),
                                                new_id = '',
                                                result = False))
         return result
@@ -157,14 +158,14 @@ class CategoryKeywords(BrowserView):
         storage = IVirtualTreeCategoryConfiguration(getUtility(IPloneSiteRoot))
         category_path = self._category_path_from_request()
         if not category_path:
-            msg = 'You can''t remove root category. Please reload page.'
+            msg = translate(_(u"You can't remove root category. Please reload page."), context=self.request),
             result = False
         else:
             result = storage.remove_category(category_path)
             if result:
-                msg = 'Category removed.'
+                msg = translate(_(u'Category removed.'), context=self.request),
             else:
-                msg = 'Could not remove category. Please reload page.'
+                msg = translate(_(u'Could not remove category. Please reload page.'), context=self.request),
         return simplejson.dumps(dict(msg=msg, result=result))
 
     def list_keywords_by_categories(self):
@@ -173,6 +174,9 @@ class CategoryKeywords(BrowserView):
         categories = self.request.form.get('categories', [])
         # list of keywords already assigned to the content
         selected = self.request.form.get('selected', [])
+        print categories
+        print selected
+        
         if isinstance(categories, basestring):
             categories = [categories]
         if isinstance(selected, basestring):

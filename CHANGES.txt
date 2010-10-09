@@ -1,10 +1,16 @@
 Changelog
 =========
 
+0.2.6 (2010-10-09)
+------------------
+
 * improved i18n
   [naro]
 
 * Added Czech i18n
+  [naro]
+  
+* fixed another data serialization problem
   [naro]
 
 0.2.5 (2010-10-03)
