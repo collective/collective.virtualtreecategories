@@ -1,6 +1,12 @@
 Changelog
 =========
 
+* improved i18n
+  [naro]
+
+* Added Czech i18n
+  [naro]
+
 0.2.5 (2010-10-03)
 ------------------
 

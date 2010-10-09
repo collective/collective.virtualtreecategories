@@ -1,18 +1,14 @@
 import simplejson
-#from Acquisition import aq_inner
 from zope.interface import implements
 from zope.component import getMultiAdapter, getUtility, adapts
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.memoize import view
-#from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from collective.virtualtreecategories.browser.interfaces import IVirtualTreeCategoriesSettingsView
 from collective.virtualtreecategories.interfaces import IVirtualTreeCategoryConfiguration
-#from collective.virtualtreecategories.interfaces import IVirtualTreeCategoryWidgetAware
-#from collective.virtualtreecategories.config import CATEGORY_SPLITTER
+from collective.virtualtreecategories import VTCMessageFactory as _
 import logging
-#from sets import Set
 
 logger = logging.getLogger('vtc-controlpanel')
 
@@ -115,7 +111,7 @@ class CategoryKeywords(BrowserView):
         root = dict(
           attributes = {'id': "root-node", 'rel': 'root'},
           state = "open",
-          data = "Root node",
+          data = _("Root node"),
           children = storage.category_tree()
          )
         return simplejson.dumps(root)
@@ -133,7 +129,7 @@ class CategoryKeywords(BrowserView):
             new_id = storage.add_category(category_path, new_name)
             if new_id:
                 result = simplejson.dumps(dict(
-                                           msg = 'Category created',
+                                           msg = _(u'Category created'),
                                            new_id = new_id,
                                            result = True))
             else:

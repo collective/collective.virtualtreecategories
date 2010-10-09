@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2010-04-11 12:01+0000\n"
+"POT-Creation-Date: 2010-10-09 13:07+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,15 +17,32 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: collective.virtualtreecategories\n"
 
+#: ./browser/controlpanel.py:132
+msgid "Category created"
+msgstr ""
+
+#: ./browser/controlpanel.py:114
+msgid "Root node"
+msgstr ""
+
 #: ./profiles/default/actionicons.xml
 #: ./profiles/default/controlpanel.xml
-#: ./profiles/uninstall/actionicons.xml
 msgid "Virtual tree categories settings"
 msgstr ""
 
+#. Default: "Save"
+#: ./browser/controlpanel.pt:67
+msgid "button_save"
+msgstr ""
+
 #. Default: "Submit"
-#: ./browser/controlpanel.pt:81
+#: ./browser/controlpanel.pt:85
 msgid "button_submit"
+msgstr ""
+
+#. Default: "Virtual tree categories configuration"
+#: ./browser/controlpanel.pt:43
+msgid "heading_vtc_setup"
 msgstr ""
 
 #. Default: "Unselect all nodes to show all available keywords"
@@ -34,17 +51,27 @@ msgid "help_categories_tree"
 msgstr ""
 
 #. Default: "Here you may define virtual categories as tree. The same tree you create here will be available on the widget used eg. for Categories (Subject) field. You should create tree nodes first and assign few keywords to the each tree node. Start with right click to the Root node. Don't forget to save selected keywords after change."
-#: ./browser/controlpanel.pt:43
+#: ./browser/controlpanel.pt:44
 msgid "help_vtc_configuration_panel"
 msgstr ""
 
 #. Default: "Replace widget of Subject field with Virtual tree categories widget?"
-#: ./browser/controlpanel.pt:79
+#: ./browser/controlpanel.pt:81
 msgid "label_replace_widget"
 msgstr ""
 
+#. Default: "Setup"
+#: ./browser/controlpanel.pt:77
+msgid "legend_setup"
+msgstr ""
+
 #. Default: "Currently assigned keywords:"
-#: ./browser/controlpanel.pt:54
+#: ./browser/controlpanel.pt:55
 msgid "text_current_keywords"
+msgstr ""
+
+#. Default: "You are going to save selected keywords to the category <span id=\"selected-category-title\"></span>."
+#: ./browser/controlpanel.pt:64
+msgid "text_save_keywords"
 msgstr ""
 

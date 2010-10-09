@@ -1,5 +1,8 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
-      lang="en"
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xml:lang="en-US" lang="en-US"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       metal:use-macro="here/main_template/macros/master"
       i18n:domain="collective.virtualtreecategories">
 
@@ -37,7 +40,7 @@
 
 <body>
     <metal:override fill-slot="main">
-        <h1>Virtual tree categories configuration</h1>
+        <h1 i18n:translate="heading_vtc_setup">Virtual tree categories configuration</h1>
         <p class="documentDescription" i18n:translate="help_vtc_configuration_panel">
             Here you may define virtual categories as tree. The same tree you 
             create here will be available on the widget used eg. for Categories
@@ -55,13 +58,14 @@
                 <select name="keywords" multiple="multiple" size="20">
                     <option tal:repeat="opt view/all_keywords"
                             tal:content="opt"
-                            tal:attributes="value opt">keyword</option>
+                            tal:attributes="value opt"></option>
                 </select>
                 <div id="save-area" style="display: none">
-                    <div id="save-info">
+                    <div id="save-info" i18n:translate="text_save_keywords">
                         You are going to save selected keywords to the category <span id="selected-category-title"></span>.
                     </div>
-                    <button id="save-keywords" class="allowMultiSubmit">Save</button>
+                    <button id="save-keywords" class="allowMultiSubmit"
+                            i18n:translate="button_save">Save</button>
                 </div>
             </div>
 
@@ -70,13 +74,16 @@
                       action="#"
                       tal:attributes="action string:${portal_url}/virtualtreecategories-controlpanel">
                   <fieldset>
-                      <legend>Setup</legend>
-                      <input type="hidden" name="replace_widget_marker" value="1">
+                      <legend i18n:translate="legend_setup">Setup</legend>
+                      <input type="hidden" name="replace_widget_marker" value="1" />
                       <input type="checkbox" name="replace_widget" value="1" id="replace_widget"
                               tal:attributes="checked view/widget_replaced" />
-                      <label for="replace_widget" i18n:translate="label_replace_widget">Replace widget of Subject field with Virtual tree categories widget?</label>
+                      <label for="replace_widget" 
+                             i18n:translate="label_replace_widget"
+                             >Replace widget of Subject field with Virtual tree categories widget?</label>
                       <br />
-                      <input type="submit" name="Submit" value="Submit" id="submit-button" i18n:attributes="value button_submit">
+                      <input type="submit" name="Submit" value="Submit" 
+                             id="submit-button" i18n:attributes="value button_submit"/>
                   </fieldset>
             </form>
 

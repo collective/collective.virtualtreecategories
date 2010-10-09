@@ -140,7 +140,7 @@
                   <option value="#"
                       tal:repeat="item selectedItems"
                       tal:content="python:vocabulary.getValue(item, item)"
-                      tal:attributes="value item">Item</option>
+                      tal:attributes="value item"></option>
                 </select>
 
             </td>

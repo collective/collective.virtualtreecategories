@@ -4,11 +4,23 @@
 
 PRODUCT="collective.virtualtreecategories"
 
-# if you want to add ne language, replace <LANGUAGE_CODE> with language code
-# and run these two commands: 
-# mkdir -p locales/cs/LC_MESSAGES/
-# touch locales/cs/LC_MESSAGES/$PRODUCT.po 
+# if you want to add new language, add the language to the following list (separated by space)
+# English language should be present even it is never translated
+LANGUAGES='cs nl'
+for lang in $LANGUAGES; do
+    mkdir -p locales/$lang/LC_MESSAGES/
+    touch locales/$lang/LC_MESSAGES/$PRODUCT.po
+done
 
-i18ndude rebuild-pot --pot locales/$PRODUCT.pot --create $PRODUCT ./
-i18ndude sync --pot locales/$PRODUCT.pot locales/*/LC_MESSAGES/$PRODUCT.po 
+/zope/i18ndude/myi18ndude.sh rebuild-pot --exclude bool_optparse.py --pot locales/$PRODUCT.pot --create $PRODUCT ./
+
+# filter out invalid PO file headers. i18ndude sync adds them to the file, 
+# but i18ntestcase fails if these headers are there
+
+for lang in $LANGUAGES; do
+    /zope/i18ndude/myi18ndude.sh sync --pot locales/$PRODUCT.pot locales/$lang/LC_MESSAGES/$PRODUCT.po
+    mv locales/$lang/LC_MESSAGES/$PRODUCT.po locales/$lang/LC_MESSAGES/$PRODUCT.potmp
+    grep -vE "^\"(Language|Domain).*" locales/$lang/LC_MESSAGES/$PRODUCT.potmp  >locales/$lang/LC_MESSAGES/$PRODUCT.po
+    rm  locales/$lang/LC_MESSAGES/$PRODUCT.potmp
+done
 
