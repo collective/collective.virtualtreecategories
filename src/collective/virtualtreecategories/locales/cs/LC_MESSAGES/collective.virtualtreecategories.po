@@ -78,7 +78,7 @@ msgstr "Pokud odznačíte všechny položky, budou zobrazena všechna klíčová
 #. Default: "Here you may define virtual categories as tree. The same tree you create here will be available on the widget used eg. for Categories (Subject) field. You should create tree nodes first and assign few keywords to the each tree node. Start with right click to the Root node. Don't forget to save selected keywords after change."
 #: ./browser/controlpanel.pt:44
 msgid "help_vtc_configuration_panel"
-msgstr "Zde je možníé definovat virtuální kategorie klíčových slov ve formě stromu. Tyto kategorie pak bude možné vybírat i při editaci položek při změně pole Kategorie (Značky). Zde ale napřed musíte vytvořit stromovou strukturu a přiřadit do nicj kategorie (značky). Klepněte pravým tlačítkem myši na položku \"Hlavní úroveň\". Nezapomeňte po každé změně uložit nastavené značky."
+msgstr "Zde je možné definovat virtuální kategorie klíčových slov ve formě stromu. Tyto kategorie pak bude možné vybírat i při editaci položek při změně pole Kategorie (Značky). Zde ale napřed musíte vytvořit stromovou strukturu a přiřadit do nicj kategorie (značky). Klepněte pravým tlačítkem myši na položku \"Hlavní úroveň\". Nezapomeňte po každé změně uložit nastavené značky."
 
 #. Default: "Replace widget of Subject field with Virtual tree categories widget?"
 #: ./browser/controlpanel.pt:81
