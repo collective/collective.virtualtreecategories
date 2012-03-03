@@ -13,7 +13,7 @@ class VirtualTreeCategoriesWidget(AddRemoveWidget):
         'helper_js': ('widget_addremove_vars.js',
                       'widget_addremove.js',
                       '++resource++collective.virtualtreecategories.jsTree/css.js',
-                      '++resource++collective.virtualtreecategories.jsTree/tree_component.js',
+                      '++resource++collective.virtualtreecategories.jsTree/jquery.tree_component.js',
                       'virtualtreecategories_widget.js'),
         'helper_css': ('++resource++collective.virtualtreecategories.jsTree/tree_component.css', ),
         })

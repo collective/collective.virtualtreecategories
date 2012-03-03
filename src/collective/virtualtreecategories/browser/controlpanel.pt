@@ -3,27 +3,30 @@
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-      metal:use-macro="here/main_template/macros/master"
+      metal:use-macro="context/main_template/macros/master"
       i18n:domain="collective.virtualtreecategories">
 
 <head>
-    <metal:block fill-slot="top_slot"
-                 tal:define="dummy python:request.set('disable_border',1)" />
+    <metal:block fill-slot="top_slot">
+            <tal:defines tal:define="dummy python:request.set('disable_border',1);
+                                     disable_column_one python:request.set('disable_plone.leftcolumn',0);
+                                     disable_column_two python:request.set('disable_plone.rightcolumn',1);"/>
+    </metal:block>
 
-    <metal:override fill-slot="column_one_slot" />
-
-    <metal:override fill-slot="column_two_slot" />
+    <metal:override fill-slot="portlets_one_slot">
+            <metal:prefs use-macro="here/portlet_prefs/macros/portlet" />
+    </metal:override>
 
     <metal:css fill-slot="style_slot">
         <link rel="stylesheet" type="text/css" href="++resource++collective.virtualtreecategories.jsTree/tree_component.css" />
         <link rel="stylesheet" type="text/css" href="++resource++collective.virtualtreecategories.resources/virtualtreecategories.css" />
         <link rel="stylesheet" type="text/css" href="++resource++collective.virtualtreecategories.resources/jquery.jgrowl.css" />
     </metal:css>
-    
+
     <metal:js fill-slot="javascript_head_slot">
         <script type="text/javascript" src="++resource++collective.virtualtreecategories.resources/jquery.jgrowl.min.js"></script>
         <script type="text/javascript" src="++resource++collective.virtualtreecategories.jsTree/css.js"></script>
-        <script type="text/javascript" src="++resource++collective.virtualtreecategories.jsTree/tree_component.js"></script>
+        <script type="text/javascript" src="++resource++collective.virtualtreecategories.jsTree/jquery.tree_component.js"></script>
 
         <!-- required for xml data type -->
         <script type="text/javascript" src="++resource++collective.virtualtreecategories.jsTree/sarissa.js"></script>
@@ -35,7 +38,6 @@
         <!-- required for cookie functionality -->
         <!-- <script type="text/javascript" src="++resource++collective.virtualtreecategories.jsTree/jquery.cookie.js"></script> -->
     </metal:js>
-
 </head>
 
 <body>
@@ -88,9 +90,7 @@
             </form>
 
             <script type="text/javascript">
-                var $tree = jq('ul#VTCTree');
                 var keywords_changed = false;
-
                 function node_selected(node) {
                     if (node.id == 'root-node') {
                         jq("#keywords").hide()
@@ -200,69 +200,72 @@
                         })
                     }
                 });
-                $tree.tree({
-                                data  : {
-                                  type  : "json",
-                                  url   : "@@vtc-categories-tree.json",
-                                  async : false
-                                },
-                                lang : {
-                                    new_node    : "New category"
-                                },
-                                rules: {
-                                    deletable  : [ "folder" ],
-                                    renameable : [ "folder" ],
-                                    draggable  : "none",
-                                    droppable  : "none",
-                                },
-                                callback: {
-                                    beforechange: function(node, tree_obj) { return before_change_node() },
-                                    onselect: function(node, tree_obj) { node_selected(node) },
-                                    oncreate: function(node) { jq(node).attr('rel', 'folder') },
-                                    onrename: function(node, lang, tree_obj, rb) {
-                                        old_id = node.id // may be undefined (new node)
-                                        new_name = jq(node).children("a:visible").text();
-                                        // shared code. Server determines if creating/renaming by the old_name value
-                                        jq.ajax({
-                                             type: 'POST',
-                                             url: "vtc-category-added-renamed",
-                                             data: 
-                                                {
-                                                  'category_path': selected_category(node),
-                                                  'old_id': old_id,
-                                                  'new_name': new_name
-                                                },
-                                             success :  
-                                                function(data) {
-                                                    jq.jGrowl(data.msg, { life: 1500 });
-                                                    // set/change node id
-                                                    if (data.result) {
-                                                        node.id = data.new_id
-                                                    }
-                                                },
-                                             dataType: 'json',
-                                             traditional: true
-                                        })
+                $(document).ready(function () {
+                    var $tree = jq('ul#VTCTree');
+                    $tree.tree({
+                                    data  : {
+                                      type  : "json",
+                                      url   : "@@vtc-categories-tree.json",
+                                      async : false
                                     },
-                                    beforedelete: function(node, tree_obj) {
-                                        jq.ajax({
-                                             type: 'POST',
-                                             url: "vtc-category-removed",
-                                             data: 
-                                                {
-                                                  'category_path': selected_category(node)
-                                                },
-                                             success :  
-                                                function(data) {
-                                                    jq.jGrowl(data.msg, { life: 3000 });
-                                                },
-                                             dataType: 'json',
-                                             traditional: true
-                                        });
-                                        return true;
-                                    } 
-                                }
-                            });
+                                    lang : {
+                                        new_node    : "New category"
+                                    },
+                                    rules: {
+                                        deletable  : [ "folder" ],
+                                        renameable : [ "folder" ],
+                                        draggable  : "none",
+                                        droppable  : "none",
+                                    },
+                                    callback: {
+                                        beforechange: function(node, tree_obj) { return before_change_node() },
+                                        onselect: function(node, tree_obj) { node_selected(node) },
+                                        oncreate: function(node) { jq(node).attr('rel', 'folder') },
+                                        onrename: function(node, lang, tree_obj, rb) {
+                                            old_id = node.id // may be undefined (new node)
+                                            new_name = jq(node).children("a:visible").text();
+                                            // shared code. Server determines if creating/renaming by the old_name value
+                                            jq.ajax({
+                                                 type: 'POST',
+                                                 url: "vtc-category-added-renamed",
+                                                 data: 
+                                                    {
+                                                      'category_path': selected_category(node),
+                                                      'old_id': old_id,
+                                                      'new_name': new_name
+                                                    },
+                                                 success :  
+                                                    function(data) {
+                                                        jq.jGrowl(data.msg, { life: 1500 });
+                                                        // set/change node id
+                                                        if (data.result) {
+                                                            node.id = data.new_id
+                                                        }
+                                                    },
+                                                 dataType: 'json',
+                                                 traditional: true
+                                            })
+                                        },
+                                        beforedelete: function(node, tree_obj) {
+                                            jq.ajax({
+                                                 type: 'POST',
+                                                 url: "vtc-category-removed",
+                                                 data: 
+                                                    {
+                                                      'category_path': selected_category(node)
+                                                    },
+                                                 success :  
+                                                    function(data) {
+                                                        jq.jGrowl(data.msg, { life: 3000 });
+                                                    },
+                                                 dataType: 'json',
+                                                 traditional: true
+                                            });
+                                            return true;
+                                        } 
+                                    }
+                    })
+                });
                             
             </script>
         </div>

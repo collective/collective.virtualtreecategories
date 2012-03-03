@@ -1,3 +1,4 @@
+
 (function($) {
     $(function() { 
         function selected_category(node) {
@@ -43,8 +44,9 @@
                     traditional: true
             })
         };
-        var $tree = jq('ul#VTCFilterTree');
-        $tree.tree({
+        $(document).ready(function () {
+            var $tree = jq('ul#VTCFilterTree');
+            $tree.tree({
                         data  : {
                           type  : "json",
                           url   : portal_url+"/@@vtc-categories-tree.json",
@@ -71,5 +73,6 @@
                                          }
                         } 
                     });
+            });
         })
 })(jQuery);

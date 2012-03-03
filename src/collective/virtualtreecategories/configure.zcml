@@ -13,9 +13,11 @@
   <!-- Include configuration for dependencies listed in setup.py -->
   <includeDependencies package="." />
 
-  <!-- p.a.upgrade is not available on P3 -->
   <include package="collective.js.jquery"
-           zcml:condition="not-installed plone.app.upgrade" />
+           zcml:condition="not-have plone-4" />
+  <include package="Products.CMFCore"
+           file="permissions.zcml"
+           zcml:condition="have plone-41" />
 
   <!-- Include the sub-packages that have their own configure.zcml files -->
   <include package=".browser" />
@@ -29,22 +31,18 @@
 
   <adapter factory=".storage.VirtualTreeCategoryConfiguration" />
 
-
-  <five:implements
-      interface=".interfaces.IVirtualTreeCategoryWidgetAware"
-      class="Products.Archetypes.ExtensibleMetadata.ExtensibleMetadata" />
-
+  <class class="Products.Archetypes.ExtensibleMetadata.ExtensibleMetadata">
+    <implements interface=".interfaces.IVirtualTreeCategoryWidgetAware" />
+  </class>
 
   <adapter factory=".extender.VirtualTreeCategoriesWidgetModifier"
       provides="archetypes.schemaextender.interfaces.ISchemaModifier"
       name="collective.virtualtreecategories.widgetmodifier" />
 
-
   <class class="Products.CMFPlone.Portal.PloneSite">
       <!-- Configuration is stored as annotations -->
       <implements interface="zope.annotation.IAttributeAnnotatable" />
   </class>
-
 
   <genericsetup:registerProfile
       name="default"
