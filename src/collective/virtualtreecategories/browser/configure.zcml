@@ -66,6 +66,11 @@
             attribute="category_removed"
             /> 
             
+        <browser:page
+            name="vtc-content-count"
+            attribute="get_content_count"
+            /> 
+    
     </browser:pages>
     
 </configure>

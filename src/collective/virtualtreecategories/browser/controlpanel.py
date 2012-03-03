@@ -1,4 +1,5 @@
 import simplejson
+import urllib
 from zope.interface import implements
 from zope.component import getMultiAdapter, getUtility, adapts
 from Products.Five import BrowserView
@@ -18,7 +19,7 @@ class VirtualTreeCategoriesSettingsView(BrowserView):
     implements(IVirtualTreeCategoriesSettingsView)
     adapts(IPloneSiteRoot)
 
-    template=ViewPageTemplateFile('controlpanel.pt')
+    template = ViewPageTemplateFile('controlpanel.pt')
 
     @view.memoize_contextless
     def tools(self):
@@ -44,6 +45,16 @@ class VirtualTreeCategoriesSettingsView(BrowserView):
         """ returns true if widget is currently being replaced """
         storage = IVirtualTreeCategoryConfiguration(self.context)
         return storage.enabled
+
+    def unassigned_keywords(self):
+        """ list all keywords not assigned to any category """
+        vals = list(self.tools().catalog().uniqueValuesFor('Subject'))
+        util = IVirtualTreeCategoryConfiguration(self.portal_state().portal())
+        for category in util.list_categories("/"):
+            for kw in category.keywords:
+                if kw in vals:
+                    vals.remove(kw)
+        return vals
 
     def __call__(self):
         if self.request.form.get('replace_widget_marker', '0') == '1':
@@ -87,7 +98,7 @@ class CategoryKeywords(BrowserView):
             kws = []
         else:
             kws = IVirtualTreeCategoryConfiguration(portal).get(category_path)
-        return simplejson.dumps(dict(keywords = kws))
+        return simplejson.dumps(dict(keywords=kws))
 
     def save_category_keywords(self):
         portal = getUtility(IPloneSiteRoot)
@@ -101,7 +112,7 @@ class CategoryKeywords(BrowserView):
         IVirtualTreeCategoryConfiguration(portal).set(category_path, kws)
         self.request.response.setHeader('Content-Type', 'text/plain; charset=utf-8')
         return simplejson.dumps(dict(
-                                    message = translate(_('Category saved'), context=self.request),
+                                    message=translate(_('Category saved'), context=self.request),
                                     keywords=kws
                                     ))
 
@@ -110,10 +121,10 @@ class CategoryKeywords(BrowserView):
         storage = IVirtualTreeCategoryConfiguration(getUtility(IPloneSiteRoot))
         # inject root node
         root = dict(
-          attributes = {'id': "root-node", 'rel': 'root'},
-          state = "open",
-          data = translate(_("Root node"), context=self.request),
-          children = storage.category_tree()
+          attributes={'id': "root-node", 'rel': 'root'},
+          state="open",
+          data=translate(_("Root node"), context=self.request),
+          children=storage.category_tree()
          )
         return simplejson.dumps(root)
 
@@ -130,28 +141,28 @@ class CategoryKeywords(BrowserView):
             new_id = storage.add_category(category_path, new_name)
             if new_id:
                 result = simplejson.dumps(dict(
-                                           msg = translate(_(u'Category created'), context=self.request),
-                                           new_id = new_id,
-                                           result = True))
+                                           msg=translate(_(u'Category created'), context=self.request),
+                                           new_id=new_id,
+                                           result=True))
             else:
                 result = simplejson.dumps(dict(
-                                           msg = translate(_(u'Category creation error!'), context=self.request),
-                                           new_id = '',
-                                           result = False))
+                                           msg=translate(_(u'Category creation error!'), context=self.request),
+                                           new_id='',
+                                           result=False))
         else:
             # rename old node
             category_path = self._category_path_from_request()
             new_id = storage.rename_category(category_path, old_id, new_name)
             if new_id:
                 result = simplejson.dumps(dict(
-                                               msg = translate(_(u'Category renamed'), context=self.request),
-                                               new_id = new_id,
-                                               result = True))
+                                               msg=translate(_(u'Category renamed'), context=self.request),
+                                               new_id=new_id,
+                                               result=True))
             else:
                 result = simplejson.dumps(dict(
-                                               msg = translate(_(u'Could not rename category.'), context=self.request),
-                                               new_id = '',
-                                               result = False))
+                                               msg=translate(_(u'Could not rename category.'), context=self.request),
+                                               new_id='',
+                                               result=False))
         return result
 
     def category_removed(self):
@@ -174,9 +185,7 @@ class CategoryKeywords(BrowserView):
         categories = self.request.form.get('categories', [])
         # list of keywords already assigned to the content
         selected = self.request.form.get('selected', [])
-        print categories
-        print selected
-        
+
         if isinstance(categories, basestring):
             categories = [categories]
         if isinstance(selected, basestring):
@@ -191,3 +200,9 @@ class CategoryKeywords(BrowserView):
             sorted(result)
         result = result.difference(selected)
         return simplejson.dumps(dict(keywords=list(result)))
+
+    def get_content_count(self, kw):
+        kw = urllib.unquote_plus(kw)
+        count = len(self.tools().catalog().searchResults(Subject=kw))
+        print kw, count
+        return count

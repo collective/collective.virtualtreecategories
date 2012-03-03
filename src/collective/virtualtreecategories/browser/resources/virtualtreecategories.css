@@ -6,3 +6,11 @@
     padding-left: 40px;
     width: 70%;
 }
+
+.unassigned-keyword:hover {
+    background-color: #eeee00;
+}
+
+.unassigned-keyword span {
+    background-color: #ffaa00;
+}

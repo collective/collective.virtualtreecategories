@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2010-10-09 14:12+0000\n"
+"POT-Creation-Date: 2012-03-03 14:56+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,35 +17,35 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: collective.virtualtreecategories\n"
 
-#: ./browser/controlpanel.py:133
+#: ./browser/controlpanel.py:144
 msgid "Category created"
 msgstr ""
 
-#: ./browser/controlpanel.py:138
+#: ./browser/controlpanel.py:149
 msgid "Category creation error!"
 msgstr ""
 
-#: ./browser/controlpanel.py:166
+#: ./browser/controlpanel.py:177
 msgid "Category removed."
 msgstr ""
 
-#: ./browser/controlpanel.py:147
+#: ./browser/controlpanel.py:158
 msgid "Category renamed"
 msgstr ""
 
-#: ./browser/controlpanel.py:104
+#: ./browser/controlpanel.py:115
 msgid "Category saved"
 msgstr ""
 
-#: ./browser/controlpanel.py:168
+#: ./browser/controlpanel.py:179
 msgid "Could not remove category. Please reload page."
 msgstr ""
 
-#: ./browser/controlpanel.py:152
+#: ./browser/controlpanel.py:163
 msgid "Could not rename category."
 msgstr ""
 
-#: ./browser/controlpanel.py:115
+#: ./browser/controlpanel.py:126
 msgid "Root node"
 msgstr ""
 
@@ -54,22 +54,22 @@ msgstr ""
 msgid "Virtual tree categories settings"
 msgstr ""
 
-#: ./browser/controlpanel.py:161
+#: ./browser/controlpanel.py:172
 msgid "You can't remove root category. Please reload page."
 msgstr ""
 
 #. Default: "Save"
-#: ./browser/controlpanel.pt:67
+#: ./browser/controlpanel.pt:78
 msgid "button_save"
 msgstr ""
 
 #. Default: "Submit"
-#: ./browser/controlpanel.pt:85
+#: ./browser/controlpanel.pt:108
 msgid "button_submit"
 msgstr ""
 
 #. Default: "Virtual tree categories configuration"
-#: ./browser/controlpanel.pt:43
+#: ./browser/controlpanel.pt:46
 msgid "heading_vtc_setup"
 msgstr ""
 
@@ -79,27 +79,42 @@ msgid "help_categories_tree"
 msgstr ""
 
 #. Default: "Here you may define virtual categories as tree. The same tree you create here will be available on the widget used eg. for Categories (Subject) field. You should create tree nodes first and assign few keywords to the each tree node. Start with right click to the Root node. Don't forget to save selected keywords after change."
-#: ./browser/controlpanel.pt:44
+#: ./browser/controlpanel.pt:47
 msgid "help_vtc_configuration_panel"
 msgstr ""
 
 #. Default: "Replace widget of Subject field with Virtual tree categories widget?"
-#: ./browser/controlpanel.pt:81
+#: ./browser/controlpanel.pt:104
 msgid "label_replace_widget"
 msgstr ""
 
 #. Default: "Setup"
-#: ./browser/controlpanel.pt:77
+#: ./browser/controlpanel.pt:100
 msgid "legend_setup"
 msgstr ""
 
+#. Default: "Unassigned keywords (${count})"
+#: ./browser/controlpanel.pt:86
+msgid "legend_unassigned_keywords"
+msgstr ""
+
 #. Default: "Currently assigned keywords:"
-#: ./browser/controlpanel.pt:55
+#: ./browser/controlpanel.pt:58
 msgid "text_current_keywords"
 msgstr ""
 
+#. Default: "Open list of search results for the assigned keywords in a new window."
+#: ./browser/controlpanel.pt:67
+msgid "text_open_search"
+msgstr ""
+
 #. Default: "You are going to save selected keywords to the category <span id=\"selected-category-title\"></span>."
-#: ./browser/controlpanel.pt:64
+#: ./browser/controlpanel.pt:75
 msgid "text_save_keywords"
+msgstr ""
+
+#. Default: "Click at the keyword to retrieve number of documents assigned to this keyword. Click second time to open search results for this keyword in the new window."
+#: ./browser/controlpanel.pt:89
+msgid "text_unassigned_kw_help"
 msgstr ""
 
