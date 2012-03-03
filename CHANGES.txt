@@ -1,6 +1,23 @@
 Changelog
 =========
 
+0.3 (2012-03-03)
+----------------
+
+* Updated to Plone 4.1
+  [naro, pcaro]
+
+* added link to search results of selected keywords (like search for items
+  covered by keywords in a category) - controlpanel
+  [naro]
+
+* added list of unassigned keywords (not assigned to any category) including
+  an option to retrieve count of items assigned to this keyword and link 
+  to search results for the keyword  - controlpanel
+  [naro]
+
+Please note, this release is not tested on Plone 3, but is supposed to work.
+
 0.2.6 (2010-10-09)
 ------------------
 
