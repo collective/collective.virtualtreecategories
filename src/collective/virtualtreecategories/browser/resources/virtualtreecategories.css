@@ -1,10 +1,11 @@
 #keywords, #VTCTree {
     float: left;
+    width: 35%;
 }
 
 #keywords {
     padding-left: 40px;
-    width: 70%;
+    width: 55%;
 }
 
 .unassigned-keyword:hover {
