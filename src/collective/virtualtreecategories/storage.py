@@ -1,3 +1,4 @@
+from Acquisition import aq_chain
 from zope.interface import implements
 from zope.component import adapts, getUtility
 from zope.annotation import IAnnotations
@@ -36,6 +37,16 @@ class Category(OrderedContainer):
         self.title = title or id
         self._data = OOBTree()
 
+    @property
+    def path(self):
+        """ Return category path, starting with slash.
+            Root node is object, but we don't want it to show
+            as root-node so that remove it from end of chain list [:-1]
+        """
+        ids = [x.id for x in aq_chain(self)][:-1]
+        ids.reverse()
+        return '/' + '/'.join(ids)
+
     def __repr__(self):
         return '<collective.virtualtreecategories.storage.Category id: %s>' % self.id
 
@@ -59,6 +70,9 @@ class VirtualTreeCategoryConfiguration(object):
 
     def _find_node(self, category_path):
         """ Returns node in path or root node """
+        if category_path == '/':
+            # normalize root category
+            category_path = ''
         if not isinstance(category_path, ListTypes):
             path = category_path.split(CATEGORY_SPLITTER)
         else:
@@ -67,28 +81,30 @@ class VirtualTreeCategoryConfiguration(object):
         if category_path and path:
             # category_path may be empty string (root category)
             for item_id in path:
-                dpath = dpath.get(item_id, None)
-                if dpath is None:
-                    return None
+                if item_id:
+                    dpath = dpath.get(item_id, None)
+                    if dpath is None:
+                        return None
         return dpath
 
     def list_categories(self, path):
         """ List categories on the specified path only. """
-        current = self.storage
-        for p in path.split(CATEGORY_SPLITTER):
-            if p:
-                current = current.get(p)
-        if current is not None:
-            return current.values()
+        node = self._find_node(path)
+        if node is not None:
+            return node.values()
+        else:
+            return []
 
-    def list_keywords(self, path):
+    def list_keywords(self, path, recursive=False):
         """ List keywords assigned to specified category """
-        current = self.storage
-        for p in path.split(CATEGORY_SPLITTER):
-            if p:
-                current = current.get(p)
-        if current is not None:
-            return current.keywords
+        result = set()
+        node = self._find_node(path)
+        if node is not None:
+            result.update(node.keywords)
+            if recursive:
+                for category in node.values():
+                    result.update(self.list_keywords(category.path, recursive=True))
+        return result
 
     def add_category(self, category_path, category_name):
         node = self._find_node(category_path)
@@ -162,9 +178,4 @@ class VirtualTreeCategoryConfiguration(object):
             return False
 
     def get(self, category_path):
-        node = self._find_node(category_path)
-        if node is not None:
-            return node.keywords
-        else:
-            # this may happen eg. when new category is created
-            return []
+        return self.list_keywords(category_path, recursive=False)

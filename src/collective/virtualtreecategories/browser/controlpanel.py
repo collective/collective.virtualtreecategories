@@ -51,7 +51,7 @@ class VirtualTreeCategoriesSettingsView(BrowserView):
         vals = list(self.tools().catalog().uniqueValuesFor('Subject'))
         util = IVirtualTreeCategoryConfiguration(self.portal_state().portal())
         for category in util.list_categories("/"):
-            for kw in category.keywords:
+            for kw in util.list_keywords(category.path, recursive=True):
                 if kw in vals:
                     vals.remove(kw)
         return vals
@@ -97,7 +97,7 @@ class CategoryKeywords(BrowserView):
         if not category_path:
             kws = []
         else:
-            kws = IVirtualTreeCategoryConfiguration(portal).get(category_path)
+            kws = IVirtualTreeCategoryConfiguration(portal).list_keywords(category_path, recursive=False)
         return simplejson.dumps(dict(keywords=kws))
 
     def save_category_keywords(self):
@@ -194,7 +194,7 @@ class CategoryKeywords(BrowserView):
         if categories:
             for category in categories:
                 path = self._category_path_from_request(category)
-                result.update(storage.get(path))
+                result.update(storage.list_keywords(path, recursive=False))
         else:
             result = set(self.tools().catalog().uniqueValuesFor('Subject'))
             sorted(result)

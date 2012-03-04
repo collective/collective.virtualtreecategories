@@ -44,13 +44,18 @@ function update_search_link() {
     var $search_link = jq("#search-by-keywords-link");
     var search_base_url = jq("#search-by-keywords-link").attr('data-searchbaseurl');
     var keywords = jq("#keywords select").val();
-    if (keywords.length > 0) {
-        var query = "";
-        jq.each(keywords, function(idx, kw) {
-            query = query + encodeURIComponent("Subject:list")+"="+encodeURIComponent(kw) + "&";
-        });
-        $search_link.attr('href', search_base_url + '?' + query+encodeURIComponent("Subject_usage:ignore_empty="));
-        $search_link.show();
+    if (keywords !== null) {
+        if (keywords.length > 0) {
+            var query = "";
+            jq.each(keywords, function(idx, kw) {
+                query = query + encodeURIComponent("Subject:list")+"="+encodeURIComponent(kw) + "&";
+            });
+            $search_link.attr('href', search_base_url + '?' + query+encodeURIComponent("Subject_usage:ignore_empty="));
+            $search_link.show();
+        } else {
+            $search_link.attr('href', "#");
+            $search_link.hide();
+        }
     } else {
         $search_link.attr('href', "#");
         $search_link.hide();
@@ -80,54 +85,58 @@ function selected_category(node) {
     };
     return category_path;
 };
-jq('#keywords').bind('change', function() {
-    keywords_changed = true;
-    var node = jq.tree_reference('VTCTree').selected;
-    var ctitle = node.find('a:first').text();
-    jq('#selected-category-title').text(ctitle);
-    jq('#save-area').show();
-});
-jq('#save-keywords').bind('click', function() {
-    // send list of selected keywords to the server
-    var kws = [];
-    jq("#keywords select option").each(function() {
-        var selected = jq(this).attr('selected');
-        if (selected || (selected == 'selected')) {
-            kws.push(jq(this).text());
-        }
-    });
-    var category = selected_category();
-    if (category == null) {
-        jq.jGrowl('No category selected', { life: 1500 });
-    } else {
-        jq.ajax({
-             type: 'POST',
-             url: "vtc-category-save-keywords",
-             data: 
-                {
-                    'category_path': category,
-                    'kws': kws
-                },
-             success :  
-                function(data) {
-                    jq.jGrowl(data.message, { life: 1500 });
-                    keywords_changed = false;
-                    jq('#save-area').hide();
-                    if (data.keywords.length > 0) {
-                        jq("#assigned-keywords-list").html(data.keywords.join(', '));
-                        jq("#assigned-keywords").show();
-                    } else {
-                        jq("#assigned-keywords-list").empty();
-                        jq("#assigned-keywords").hide();
-                    }
-                },
-             dataType: 'json',
-             traditional: true
-        })
-    }
-});
 jq(document).ready(function () {
     var $tree = jq('ul#VTCTree');
+
+    jq('#keywords').bind('change', function() {
+        keywords_changed = true;
+        var node = jq.tree_reference('VTCTree').selected;
+        var ctitle = node.find('a:first').text();
+        jq('#selected-category-title').text(ctitle);
+        jq('#save-area').show();
+        update_search_link();
+    });
+
+    jq('#save-keywords').bind('click', function() {
+        // send list of selected keywords to the server
+        var kws = [];
+        jq("#keywords select option").each(function() {
+            var selected = jq(this).attr('selected');
+            if (selected || (selected == 'selected')) {
+                kws.push(jq(this).text());
+            }
+        });
+        var category = selected_category();
+        if (category == null) {
+            jq.jGrowl('No category selected', { life: 1500 });
+        } else {
+            jq.ajax({
+                 type: 'POST',
+                 url: "vtc-category-save-keywords",
+                 data: 
+                    {
+                        'category_path': category,
+                        'kws': kws
+                    },
+                 success :  
+                    function(data) {
+                        jq.jGrowl(data.message, { life: 1500 });
+                        keywords_changed = false;
+                        jq('#save-area').hide();
+                        if (data.keywords.length > 0) {
+                            jq("#assigned-keywords-list").html(data.keywords.join(', '));
+                            jq("#assigned-keywords").show();
+                        } else {
+                            jq("#assigned-keywords-list").empty();
+                            jq("#assigned-keywords").hide();
+                        }
+                    },
+                 dataType: 'json',
+                 traditional: true
+            })
+        }
+    });
+
     $tree.tree({
                     data  : {
                       type  : "json",

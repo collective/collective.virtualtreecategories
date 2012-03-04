@@ -125,10 +125,31 @@ Set keywords to category
     >>> storage.set('category-1/category-1b', ['kw1', 'kw2'])
     True
     >>> storage.get('category-1/category-1b')
-    ['kw1', 'kw2']
+    set(['kw1', 'kw2'])
+
+Set keywords to both categories and test recursive list
+
+    >>> storage.set('category-1', ['kw3', 'kw4'])
+    True
+    >>> storage.get('category-1/category-1b')
+    set(['kw1', 'kw2'])
+    >>> storage.get('category-1')
+    set(['kw3', 'kw4'])
+    >>> storage.list_keywords('category-1', recursive=False)
+    set(['kw3', 'kw4'])
+    >>> storage.list_keywords('category-1', recursive=True)
+    set(['kw1', 'kw3', 'kw2', 'kw4'])
+    >>> storage.list_keywords('category-1/category-1b', recursive=False)
+    set(['kw1', 'kw2'])
+    >>> storage.list_keywords('category-1/category-1b', recursive=True)
+    set(['kw1', 'kw2'])
+    >>> storage.set('category-1', ['kw3', 'kw4', 'kw1'])
+    True
+    >>> storage.list_keywords('category-1', recursive=True)
+    set(['kw1', 'kw3', 'kw2', 'kw4'])
 
     >>> storage.get('category-1/dummy')
-    []
+    set([])
 
 Test listing nodes
 
@@ -139,7 +160,7 @@ Test listing nodes
     >>> [x.title for x in storage.list_categories('/category-1')]
     ['Fresh category name', 'Category 1b']
     >>> storage.list_keywords('/category-1/category-1b')
-    ['kw1', 'kw2']
+    set(['kw1', 'kw2'])
 
 Check install dependencies
 
