@@ -50,7 +50,7 @@ function update_search_link() {
             jq.each(keywords, function(idx, kw) {
                 query = query + encodeURIComponent("Subject:list")+"="+encodeURIComponent(kw) + "&";
             });
-            $search_link.attr('href', search_base_url + '?' + query+encodeURIComponent("Subject_usage:ignore_empty="));
+            $search_link.attr('href', search_base_url + '?' + query+"sort_order=reverse&sort_on=modified&"+encodeURIComponent("Subject_usage:ignore_empty="));
             $search_link.show();
         } else {
             $search_link.attr('href', "#");
