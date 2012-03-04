@@ -39,6 +39,7 @@ class Category(OrderedContainer):
     def __repr__(self):
         return '<collective.virtualtreecategories.storage.Category id: %s>' % self.id
 
+
 class VirtualTreeCategoryConfiguration(object):
     implements(IVirtualTreeCategoryConfiguration)
     adapts(IPloneSiteRoot)
@@ -105,10 +106,10 @@ class VirtualTreeCategoryConfiguration(object):
         def add_subkeys(node):
             res = []
             for k, category in node.items():
-                item = dict(attributes = dict(id=category.id, rel='folder'),
-                            state = 'closed',
-                            data = category.title,
-                            children = add_subkeys(category)
+                item = dict(attributes=dict(id=category.id, rel='folder'),
+                            state='closed',
+                            data=category.title,
+                            children=add_subkeys(category)
                            )
                 res.append(item)
             return res
