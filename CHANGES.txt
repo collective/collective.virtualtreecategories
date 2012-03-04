@@ -1,6 +1,12 @@
 Changelog
 =========
 
+0.3.2 (2012-03-04)
+------------------
+
+* Fixed serialization problem introduced in 0.3.1
+  [naro]
+
 0.3.1 (2012-03-04)
 ------------------
 
