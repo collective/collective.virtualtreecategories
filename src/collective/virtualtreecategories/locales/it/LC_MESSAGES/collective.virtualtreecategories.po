@@ -1,0 +1,121 @@
+# Translation of collective.virtualtreecategories.pot to Italian
+# Giacomo Spettoli <giacomo.spettoli@gmail.com>, 2012.
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2012-03-03 14:56+0000\n"
+"PO-Revision-Date: 2012-03-04 16:00+0100\n"
+"Last-Translator: Giacomo Spettoli <giacomo.spettoli@gmail.com>\n"
+"Language-Team: Plone i18n <plone-i18n@lists.sourceforge.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n!=1\n"
+"Language-Code: it\n"
+"Language-Name: Italiano\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: collective.virtualtreecategories\n"
+"X-Is-Fallback-For: it-ch it-it\n"
+
+#: ./browser/controlpanel.py:144
+msgid "Category created"
+msgstr "Categoria creata"
+
+#: ./browser/controlpanel.py:149
+msgid "Category creation error!"
+msgstr "Errore durante la creazione della categoria!"
+
+#: ./browser/controlpanel.py:177
+msgid "Category removed."
+msgstr "Categoria rimossa."
+
+#: ./browser/controlpanel.py:158
+msgid "Category renamed"
+msgstr "Categoria rinominata"
+
+#: ./browser/controlpanel.py:115
+msgid "Category saved"
+msgstr "Categoria salvata"
+
+#: ./browser/controlpanel.py:179
+msgid "Could not remove category. Please reload page."
+msgstr "Impossibile rimuovere la categoria. Si prega di ricaricare la pagina."
+
+#: ./browser/controlpanel.py:163
+msgid "Could not rename category."
+msgstr "Impossibile rinominare la categoria."
+
+#: ./browser/controlpanel.py:126
+msgid "Root node"
+msgstr "Nodo Radice"
+
+#: ./profiles/default/actionicons.xml
+#: ./profiles/default/controlpanel.xml
+msgid "Virtual tree categories settings"
+msgstr "Impostazioni di Virtual tree categories"
+
+#: ./browser/controlpanel.py:172
+msgid "You can't remove root category. Please reload page."
+msgstr "Non è possibile rimuovere il Nodo Radice. Si prega di ricaricare la pagina."
+
+#. Default: "Save"
+#: ./browser/controlpanel.pt:78
+msgid "button_save"
+msgstr "Salva"
+
+#. Default: "Submit"
+#: ./browser/controlpanel.pt:108
+msgid "button_submit"
+msgstr "Invia"
+
+#. Default: "Virtual tree categories configuration"
+#: ./browser/controlpanel.pt:46
+msgid "heading_vtc_setup"
+msgstr "Configurazione di Virtual tree categories"
+
+#. Default: "Unselect all nodes to show all available keywords"
+#: ./skins/virtualtreecategories/virtualtreecategories_widget.pt:72
+msgid "help_categories_tree"
+msgstr "De-selezionare tutti i nodi per mostrare tutte le parole chiave permesse"
+
+#. Default: "Here you may define virtual categories as tree. The same tree you create here will be available on the widget used eg. for Categories (Subject) field. You should create tree nodes first and assign few keywords to the each tree node. Start with right click to the Root node. Don't forget to save selected keywords after change."
+#: ./browser/controlpanel.pt:47
+msgid "help_vtc_configuration_panel"
+msgstr "Qui è possibile definire l'albero delle categorie virtuali. L'albero creato qui apparirà anche nel widget usato ad es. per il campo Categorie (Subject). Dovresti prima creare i nodi dell'albero e poi assegnare qualche parola chiave ad ogni nodo. Inizia cliccando con il tasto destro sul Nodo Radice. Non dimenticare di salvare le parole chiave selezionate dopo le modifiche."
+
+#. Default: "Replace widget of Subject field with Virtual tree categories widget?"
+#: ./browser/controlpanel.pt:104
+msgid "label_replace_widget"
+msgstr "Sostituire il widget del campo Categorie con il widget Virtual tree categories?"
+
+#. Default: "Setup"
+#: ./browser/controlpanel.pt:100
+msgid "legend_setup"
+msgstr "Configurazione"
+
+#. Default: "Unassigned keywords (${count})"
+#: ./browser/controlpanel.pt:86
+msgid "legend_unassigned_keywords"
+msgstr "Parole chiave non assegnate (${count})"
+
+#. Default: "Currently assigned keywords:"
+#: ./browser/controlpanel.pt:58
+msgid "text_current_keywords"
+msgstr "Parole chiave attualmente assegnate:"
+
+#. Default: "Open list of search results for the assigned keywords in a new window."
+#: ./browser/controlpanel.pt:67
+msgid "text_open_search"
+msgstr "Apri la lista dei risultati della ricerca per per parole chiave assegnate in una nuova finestra."
+
+#. Default: "You are going to save selected keywords to the category <span id=\"selected-category-title\"></span>."
+#: ./browser/controlpanel.pt:75
+msgid "text_save_keywords"
+msgstr "Stai per salvare le parole chiave selezionate nella categoria <span id=\"selected-category-title\"></span>."
+
+#. Default: "Click at the keyword to retrieve number of documents assigned to this keyword. Click second time to open search results for this keyword in the new window."
+#: ./browser/controlpanel.pt:89
+msgid "text_unassigned_kw_help"
+msgstr "Clicca sulla parola chiave per recuperare il numero di contenuti ad essa assegnati. Clicca una seconda volta per aprire la ricerca dei risultati per questa parola chiave in una nuova finestra."
+
