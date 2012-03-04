@@ -1,6 +1,17 @@
 Changelog
 =========
 
+0.3.1 (2012-03-04)
+------------------
+
+* Fixed javascript bug which prevents showing Save keywords button in 
+  the controlpanel.
+  [naro]
+
+* Added option to recursive list of keywords in a category tree. This is
+  also used for list of unassigned keywords.
+  [naro]
+
 0.3 (2012-03-03)
 ----------------
 

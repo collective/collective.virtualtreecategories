@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 def read(*rnames):
     return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
 
-version = '0.3.1dev'
+version = '0.3.1'
 
 long_description = (
     read('README.txt')
@@ -31,7 +31,7 @@ setup(name='collective.virtualtreecategories',
       url='http://pypi.python.org/pypi/collective.virtualtreecategories',
       license='GPL',
       packages=find_packages('src', exclude=['ez_setup']),
-      package_dir = {'': 'src'},
+      package_dir={'': 'src'},
       namespace_packages=['collective'],
       include_package_data=True,
       zip_safe=False,
