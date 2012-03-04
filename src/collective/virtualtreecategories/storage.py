@@ -104,7 +104,8 @@ class VirtualTreeCategoryConfiguration(object):
             if recursive:
                 for category in node.values():
                     result.update(self.list_keywords(category.path, recursive=True))
-        return result
+        # do not return set, it is not json serializable
+        return list(result)
 
     def add_category(self, category_path, category_name):
         node = self._find_node(category_path)
