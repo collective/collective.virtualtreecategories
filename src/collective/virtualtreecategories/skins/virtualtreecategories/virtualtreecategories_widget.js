@@ -12,9 +12,9 @@
             };
             return category_path;
         };
-        function category_selected_deselected(node, tree_obj, deselecting) {
+        function category_selected_deselected(node, tree_obj, selected_selector, unselected_selector, deselecting) {
             var selected_keywords = [];
-            jq('select#subject_selected option').each(function() { 
+            jq(selected_selector+' option').each(function() { 
                 selected_keywords.push(this.value)
             });
             var selected_categories = [];
@@ -36,7 +36,7 @@
                             selected: selected_keywords
                          },
                     success:function(data) {
-                                var $master = jq('select#subject_unselected');
+                                var $master = jq(unselected_selector);
                                 $master.empty();
                                 jq.each(data.keywords, function() { $master.append('<option value="'+this+'">'+this+'</option>') });
                             },
@@ -46,6 +46,15 @@
         };
         $(document).ready(function () {
             var $tree = jq('ul#VTCFilterTree');
+            var widgetid = $tree.attr('data-widgetid');
+            var widgettype = $tree.attr('data-widgettype');
+            if (widgettype == 'archetypes') {
+                var selected_selector = 'select#'+widgetid+'_selected';
+                var unselected_selector = 'select#'+widgetid+'_unselected';
+            } else if (widgettype == 'dexterity') {
+                var selected_selector = 'select#'+widgetid+'-to';
+                var unselected_selector = 'select#'+widgetid+'-from';
+            }
             $tree.tree({
                         data  : {
                           type  : "json",
@@ -66,10 +75,10 @@
                         },
                         callback : {
                             onselect   : function(node, tree_obj) {
-                                            category_selected_deselected(node, tree_obj, false);
+                                            category_selected_deselected(node, tree_obj, selected_selector, unselected_selector, false);
                                          },
                             ondeselect : function(node, tree_obj) {
-                                            category_selected_deselected(node, tree_obj, true);
+                                            category_selected_deselected(node, tree_obj, selected_selector, unselected_selector, true);
                                          }
                         } 
                     });

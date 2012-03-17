@@ -7,6 +7,9 @@ Changelog
 * Added Italian translation 
   [giacomos] 
 
+- Added dexterity version of the widget. See Readme.
+  [naro]
+
 0.3.2 (2012-03-04)
 ------------------
 

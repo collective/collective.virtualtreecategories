@@ -1,3 +1,6 @@
+#content ul#VTCFilterTree ul { margin-left: 0; list-style-type: none;} 
+#content ul#VTCFilterTree ul a { padding-left: 24px;} 
+
 #keywords, #VTCTree {
     float: left;
     width: 35%;

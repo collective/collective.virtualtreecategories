@@ -15,7 +15,8 @@ class VirtualTreeCategoriesWidget(AddRemoveWidget):
                       '++resource++collective.virtualtreecategories.jsTree/css.js',
                       '++resource++collective.virtualtreecategories.jsTree/jquery.tree_component.js',
                       'virtualtreecategories_widget.js'),
-        'helper_css': ('++resource++collective.virtualtreecategories.jsTree/tree_component.css', ),
+        'helper_css': ('++resource++collective.virtualtreecategories.jsTree/tree_component.css',
+                       '++resource++collective.virtualtreecategories.resources/virtualtreecategories.css', ),
         })
 
     security = ClassSecurityInfo()

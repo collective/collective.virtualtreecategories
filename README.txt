@@ -37,7 +37,13 @@ Plone 4::
     eggs = 
         ...
         collective.virtualtreecategories
-        
+  
+Dexterity::
+
+    eggs = 
+        ...
+        collective.virtualtreecategories [dexterity]
+
 
 Control panel
 -------------
@@ -49,3 +55,38 @@ Archetypes widget
 
 .. figure:: http://plone.org/products/collective.virtualtreecategories/documentation/manuals/project-description/AT%20Widget.png/image_preview
 
+Dexterity widget
+----------------
+
+If you want to use this widget in your dexterity content type, you need to 
+specify [dexterity] extra in eggs section of the buildout. You also 
+need to use Keyword field from collective.z3cform.keywordwidget for your schema field
+and finally set VirtualTreeCategoriesFieldWidget as widget for the field.
+```Please note, this feature requires collective.z3cform.keywordwidget > 1.1.1 or svn 
+branch currently.```
+
+Example::
+
+    from zope import schema
+    from plone.directives import form
+    from collective.z3cform.keywordwidget.field import Keywords
+    from collective.virtualtreecategories.dexterity.widget import VirtualTreeCategoriesFieldWidget
+
+    class ICustomCategorization(form.Schema):
+
+        subjects = Keywords(
+            title=u'Categories',
+            value_type=schema.TextLine(),
+            required=False,
+            missing_value=(),
+            index_name='Subject',
+            )
+        form.widget(subjects=VirtualTreeCategoriesFieldWidget)
+
+        new_subjects = schema.Tuple(
+            title=u'New categories',
+            description=u'Enter new keywords, one per line.',
+            value_type=schema.TextLine(),
+            required=False,
+            missing_value=(),
+            )

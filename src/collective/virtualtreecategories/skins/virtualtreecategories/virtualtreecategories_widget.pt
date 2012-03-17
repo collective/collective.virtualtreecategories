@@ -74,7 +74,9 @@
                  i18n:domain="collective.virtualtreecategories">
                     Unselect all nodes to show all available keywords
             </div>
-            <ul id="VTCFilterTree"></ul>
+            <ul id="VTCFilterTree"
+                data-widgettype="archetypes"
+                tal:attributes="data-widgetid fieldName;"></ul>
             <div class="visualClear"><!-- --></div>
             <table cellpadding="2" cellspacing="2">
             <tr>

@@ -45,6 +45,8 @@ setup(name='collective.virtualtreecategories',
       extras_require={
                 'tests': tests_require,
                 'plone3': ['collective.js.jquery'],
+                'dexterity': ['plone.app.dexterity',
+                              'collective.z3cform.keywordwidget'],
                 },
       entry_points="""
       # -*- Entry points: -*-
