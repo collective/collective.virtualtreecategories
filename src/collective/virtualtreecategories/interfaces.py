@@ -92,9 +92,28 @@ class IVirtualTreeCategoryConfiguration(Interface):
 
     def list_categories(path):
         """ List categories on the specified path only. """
-        
+
     def list_keywords(path):
         """ List keywords assigned to the specified path. """
+
+    def by_keyword(keyword=None):
+        """ Returns dictionary with keywords as keys
+            and list of category paths as values.
+            If keyword is in more than one category,
+            all paths are returned as separate items.
+            If keyword is in two categories within the same tree, all
+            categories are returned as separate items.
+            Example:
+            {'kw1': ['C11', 'C1'], ['D1']}
+            If kw1 would be directly assigned to C1 as well, result is:
+            {'kw1': ['C11', 'C1'], ['C1'], ['D1']}
+
+            WARNING: this method may be expensive to call with large number of
+            categories and/or keywords.
+            If keyword parameter is None, all keywords are returnend,
+            otherwise just dict with one key is returned.
+        """
+
 
 class VirtualTreeCategoriesError(Exception):
     """ """

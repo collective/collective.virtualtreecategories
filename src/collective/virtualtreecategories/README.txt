@@ -162,6 +162,18 @@ Test listing nodes
     >>> storage.list_keywords('/category-1/category-1b')
     ['kw1', 'kw2']
 
+Test by_keyword listing
+
+    >>> storage.set('category-2', ['kw1'])
+    True
+    >>> storage.by_keyword()
+    {'kw1': ['/category-1/category-1b', '/category-2'], 'kw3': ['/category-1'], 'kw2': ['/category-1/category-1b'], 'kw4': ['/category-1']}
+    >>> storage.by_keyword('kw3')
+    {'kw3': ['/category-1']}
+    >>> storage.by_keyword('invalid')
+    {'invalid': []}
+
+
 Check install dependencies
 
     >>> from Products.PloneTestCase.PloneTestCase import PLONE30, PLONE40

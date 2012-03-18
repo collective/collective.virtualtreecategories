@@ -180,3 +180,25 @@ class VirtualTreeCategoryConfiguration(object):
 
     def get(self, category_path):
         return self.list_keywords(category_path, recursive=False)
+
+    def by_keyword(self, keyword=None):
+        def process_subkeys(node):
+            res = {}
+            for k, category in node.items():
+                if keyword is None:
+                    for kw in category.keywords:
+                        if kw not in res:
+                            res[kw] = []
+                        res[kw].append(category.path)
+                elif keyword in category.keywords:
+                    if keyword not in res:
+                        res[keyword] = []
+                    res[keyword].append(category.path)
+                res.update(process_subkeys(category))
+            return res
+        result = process_subkeys(self.storage)
+        if keyword is not None:
+            cats = result.get(keyword, [])
+            return {keyword: cats}
+        else:
+            return result

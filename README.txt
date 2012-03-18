@@ -62,8 +62,8 @@ If you want to use this widget in your dexterity content type, you need to
 specify [dexterity] extra in eggs section of the buildout. You also 
 need to use Keyword field from collective.z3cform.keywordwidget for your schema field
 and finally set VirtualTreeCategoriesFieldWidget as widget for the field.
-```Please note, this feature requires collective.z3cform.keywordwidget > 1.1.1 or svn 
-branch currently.```
+**Please note, this feature requires collective.z3cform.keywordwidget > 1.1.1 or svn 
+branch currently.**
 
 Example::
 
