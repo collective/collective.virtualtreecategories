@@ -5,6 +5,8 @@ from AccessControl import ClassSecurityInfo
 from Products.AddRemoveWidget.AddRemoveWidget import AddRemoveWidget
 from Products.Archetypes.Registry import registerWidget
 
+RESOURCE = '++resource++collective.virtualtreecategories'
+
 
 class VirtualTreeCategoriesWidget(AddRemoveWidget):
     _properties = AddRemoveWidget._properties.copy()
@@ -12,11 +14,11 @@ class VirtualTreeCategoriesWidget(AddRemoveWidget):
         'macro': "virtualtreecategories_widget",
         'helper_js': ('widget_addremove_vars.js',
                       'widget_addremove.js',
-                      '++resource++collective.virtualtreecategories.jsTree/css.js',
-                      '++resource++collective.virtualtreecategories.jsTree/jquery.tree_component.js',
+                      RESOURCE + '.jsTree/css.js',
+                      RESOURCE + '.jsTree/jquery.tree_component.js',
                       'virtualtreecategories_widget.js'),
-        'helper_css': ('++resource++collective.virtualtreecategories.jsTree/tree_component.css',
-                       '++resource++collective.virtualtreecategories.resources/virtualtreecategories.css', ),
+        'helper_css': (RESOURCE + '.jsTree/tree_component.css',
+                       RESOURCE + '.resources/virtualtreecategories.css', ),
         })
 
     security = ClassSecurityInfo()

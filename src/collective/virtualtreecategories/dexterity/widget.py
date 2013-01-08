@@ -6,11 +6,11 @@ from collective.z3cform.keywordwidget.widget import InAndOutKeywordWidget
 from collective.z3cform.keywordwidget.interfaces import IKeywordCollection
 from collective.z3cform.keywordwidget.field import KeywordsDataConverter
 from zope.interface import implementsOnly
-from collective.virtualtreecategories.dexterity.interfaces import IVirtualTreeCategoriesWidget
+from collective.virtualtreecategories.dexterity import interfaces
 
 
 class VirtualTreeCategoriesWidget(InAndOutKeywordWidget):
-    implementsOnly(IVirtualTreeCategoriesWidget)
+    implementsOnly(interfaces.IVirtualTreeCategoriesWidget)
     klass = u'virtualtreecategories-widget'
 
 
@@ -24,4 +24,5 @@ def VirtualTreeCategoriesFieldWidget(field, request):
 
 class VirtualTreeCategoriesDataConverter(KeywordsDataConverter):
     """A special converter between collections and sequence widgets."""
-    zope.component.adapts(IKeywordCollection, IVirtualTreeCategoriesWidget)
+    zope.component.adapts(IKeywordCollection,
+                          interfaces.IVirtualTreeCategoriesWidget)

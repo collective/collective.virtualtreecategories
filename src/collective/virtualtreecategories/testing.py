@@ -1,8 +1,11 @@
 # from Products.Five import zcml
+from zope.annotation.attribute import AttributeAnnotations
+from zope.component import provideAdapter
 from Zope2.App import zcml
 from Products.Five import fiveconfigure
 from Products.PloneTestCase.PloneTestCase import installPackage
 
+from collective.testcaselayer import ztc as tcl_ztc
 from collective.testcaselayer import ptc as tcl_ptc
 
 
@@ -19,10 +22,6 @@ class Layer(tcl_ptc.BasePTCLayer):
         installPackage('collective.virtualtreecategories', quiet=True)
         # finally load the testing profile
         self.addProfile('collective.virtualtreecategories:default')
-
-from zope.annotation.attribute import AttributeAnnotations
-from zope.component import provideAdapter
-from collective.testcaselayer import ztc as tcl_ztc
 
 
 class AttributeAnnotationsLayer(tcl_ztc.BaseZTCLayer):
