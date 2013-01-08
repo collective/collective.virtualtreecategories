@@ -7,8 +7,11 @@ Changelog
 * Added Italian translation 
   [giacomos] 
 
-- Added dexterity version of the widget. See Readme.
+* Added dexterity version of the widget. See Readme.
   [naro]
+
+* Added French translation
+  [toutpt]
 
 0.3.2 (2012-03-04)
 ------------------
