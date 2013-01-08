@@ -1,4 +1,3 @@
-src/
 var/
 *.mo
 *.egg-info
@@ -23,5 +22,4 @@ dist
 *.pyc
 *.pyo
 *.tmp*
-src
 .settings
