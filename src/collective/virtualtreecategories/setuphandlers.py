@@ -2,13 +2,15 @@ from Products.CMFCore.utils import getToolByName
 
 try:
     from plone.app.upgrade import v40
-    v40 # pyflakes
+    v40  # pyflakes
     HAS_PLONE4 = True
 except ImportError:
     HAS_PLONE4 = False
 
+
 class NotInstallable(Exception):
     """ Package is not installable """
+
 
 def installHandler(self):
     if self.readDataFile('virtualtreecategories-install.txt') is None:
@@ -30,6 +32,7 @@ def installHandler(self):
             else:
                 setup.runAllImportStepsFromProfile('profile-collective.js.jquery:default')
 
+
 def uninstall(self):
     if self.readDataFile('virtualtreecategories-uninstall.txt') is None:
         return
@@ -37,4 +40,3 @@ def uninstall(self):
     portal = self.getSite()
     portal_conf = getToolByName(portal, 'portal_controlpanel')
     portal_conf.unregisterConfiglet('VirtualTreeCategories')
-
