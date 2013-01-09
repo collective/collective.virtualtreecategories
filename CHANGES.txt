@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.3.3 (unreleased)
+0.3.3 (2013-01-09)
 ------------------
 
 * Added Italian translation 
