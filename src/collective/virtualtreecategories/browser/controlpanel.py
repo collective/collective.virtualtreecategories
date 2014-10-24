@@ -46,7 +46,7 @@ class VirtualTreeCategoriesSettingsView(BrowserView):
 
     def widget_replaced(self):
         """ returns true if widget is currently being replaced """
-        storage = (self.context)
+        storage = IVTCC(self.context)
         return storage.enabled
 
     def unassigned_keywords(self):
