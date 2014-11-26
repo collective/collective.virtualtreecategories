@@ -2,15 +2,15 @@ var keywords_changed = false;
 
 function node_selected(node) {
     if (node.id == 'root-node') {
-        jq("#keywords").hide()
+        $("#keywords").hide()
     } else {
-        jq("#keywords").show()
+        $("#keywords").show()
     };
-    var ctitle = jq(node).find('a:first').text();
-    jq('#selected-category-title').text(ctitle);
+    var ctitle = $(node).find('a:first').text();
+    $('#selected-category-title').text(ctitle);
     keywords_changed = false;
     // call portal and get list of selected keywords
-    jq.ajax({
+    $.ajax({
          type: 'POST',
          url: "vtc-category-keywords",
          data: 
@@ -20,19 +20,19 @@ function node_selected(node) {
          success :  
             function(plone_keywords){
                 var keywords = plone_keywords.keywords;
-                jq("#keywords select option").each(function(idx, obj) {
+                $("#keywords select option").each(function(idx, obj) {
                     if (jQuery.inArray(this.value, keywords) != -1) {
-                        jq(this).attr('selected', 'selected')
+                        $(this).attr('selected', 'selected')
                     } else {
-                        jq(this).removeAttr('selected')
+                        $(this).removeAttr('selected')
                     }
                 });
                 if (keywords.length > 0) {
-                    jq("#assigned-keywords-list").html(keywords.join(', '));
-                    jq("#assigned-keywords").show();
+                    $("#assigned-keywords-list").html(keywords.join(', '));
+                    $("#assigned-keywords").show();
                 } else {
-                    jq("#assigned-keywords-list").empty();
-                    jq("#assigned-keywords").hide();
+                    $("#assigned-keywords-list").empty();
+                    $("#assigned-keywords").hide();
                 };
                 update_search_link();
             },
@@ -41,13 +41,13 @@ function node_selected(node) {
     });
 };
 function update_search_link() {
-    var $search_link = jq("#search-by-keywords-link");
-    var search_base_url = jq("#search-by-keywords-link").attr('data-searchbaseurl');
-    var keywords = jq("#keywords select").val();
+    var $search_link = $("#search-by-keywords-link");
+    var search_base_url = $("#search-by-keywords-link").attr('data-searchbaseurl');
+    var keywords = $("#keywords select").val();
     if (keywords !== null) {
         if (keywords.length > 0) {
             var query = "";
-            jq.each(keywords, function(idx, kw) {
+            $.each(keywords, function(idx, kw) {
                 query = query + encodeURIComponent("Subject:list")+"="+encodeURIComponent(kw) + "&";
             });
             $search_link.attr('href', search_base_url + '?' + query+"sort_order=reverse&sort_on=Date&"+encodeURIComponent("Subject_usage:ignore_empty="));
@@ -72,45 +72,45 @@ function before_change_node() {
 };
 function selected_category(node) {
     if (node == undefined) {
-        var category = jq.tree_reference('VTCTree').selected;
+        var category = $.tree_reference('VTCTree').selected;
     } else {
-        var category = jq(node);
+        var category = $(node);
     };
     var category_path = [];
     if (category != null) {
         category_path.push(category.attr('id'));
         category.parents('li').each(function() {
-            category_path.push(jq(this).attr('id'))
+            category_path.push($(this).attr('id'))
         });
     };
     return category_path;
 };
-jq(document).ready(function () {
-    var $tree = jq('ul#VTCTree');
+$(document).ready(function () {
+    var $tree = $('ul#VTCTree');
 
-    jq('#keywords').bind('change', function() {
+    $('#keywords').bind('change', function() {
         keywords_changed = true;
-        var node = jq.tree_reference('VTCTree').selected;
+        var node = $.tree_reference('VTCTree').selected;
         var ctitle = node.find('a:first').text();
-        jq('#selected-category-title').text(ctitle);
-        jq('#save-area').show();
+        $('#selected-category-title').text(ctitle);
+        $('#save-area').show();
         update_search_link();
     });
 
-    jq('#save-keywords').bind('click', function() {
+    $('#save-keywords').bind('click', function() {
         // send list of selected keywords to the server
         var kws = [];
-        jq("#keywords select option").each(function() {
-            var selected = jq(this).attr('selected');
+        $("#keywords select option").each(function() {
+            var selected = $(this).attr('selected');
             if (selected || (selected == 'selected')) {
-                kws.push(jq(this).text());
+                kws.push($(this).text());
             }
         });
         var category = selected_category();
         if (category == null) {
-            jq.jGrowl('No category selected', { life: 1500 });
+            $.jGrowl('No category selected', { life: 1500 });
         } else {
-            jq.ajax({
+            $.ajax({
                  type: 'POST',
                  url: "vtc-category-save-keywords",
                  data: 
@@ -120,15 +120,15 @@ jq(document).ready(function () {
                     },
                  success :  
                     function(data) {
-                        jq.jGrowl(data.message, { life: 1500 });
+                        $.jGrowl(data.message, { life: 1500 });
                         keywords_changed = false;
-                        jq('#save-area').hide();
+                        $('#save-area').hide();
                         if (data.keywords.length > 0) {
-                            jq("#assigned-keywords-list").html(data.keywords.join(', '));
-                            jq("#assigned-keywords").show();
+                            $("#assigned-keywords-list").html(data.keywords.join(', '));
+                            $("#assigned-keywords").show();
                         } else {
-                            jq("#assigned-keywords-list").empty();
-                            jq("#assigned-keywords").hide();
+                            $("#assigned-keywords-list").empty();
+                            $("#assigned-keywords").hide();
                         }
                     },
                  dataType: 'json',
@@ -155,12 +155,12 @@ jq(document).ready(function () {
                     callback: {
                         beforechange: function(node, tree_obj) { return before_change_node() },
                         onselect: function(node, tree_obj) { node_selected(node) },
-                        oncreate: function(node) { jq(node).attr('rel', 'folder') },
+                        oncreate: function(node) { $(node).attr('rel', 'folder') },
                         onrename: function(node, lang, tree_obj, rb) {
                             old_id = node.id // may be undefined (new node)
-                            new_name = jq(node).children("a:visible").text();
+                            new_name = $(node).children("a:visible").text();
                             // shared code. Server determines if creating/renaming by the old_name value
-                            jq.ajax({
+                            $.ajax({
                                  type: 'POST',
                                  url: "vtc-category-added-renamed",
                                  data: 
@@ -171,7 +171,7 @@ jq(document).ready(function () {
                                     },
                                  success :  
                                     function(data) {
-                                        jq.jGrowl(data.msg, { life: 1500 });
+                                        $.jGrowl(data.msg, { life: 1500 });
                                         // set/change node id
                                         if (data.result) {
                                             node.id = data.new_id
@@ -182,7 +182,7 @@ jq(document).ready(function () {
                             })
                         },
                         beforedelete: function(node, tree_obj) {
-                            jq.ajax({
+                            $.ajax({
                                  type: 'POST',
                                  url: "vtc-category-removed",
                                  data: 
@@ -191,7 +191,7 @@ jq(document).ready(function () {
                                     },
                                  success :  
                                     function(data) {
-                                        jq.jGrowl(data.msg, { life: 3000 });
+                                        $.jGrowl(data.msg, { life: 3000 });
                                     },
                                  dataType: 'json',
                                  traditional: true
@@ -201,13 +201,13 @@ jq(document).ready(function () {
                     }
     });
     // unassigned keywords
-    jq(".unassigned-keyword").click(function(event) {
+    $(".unassigned-keyword").click(function(event) {
         event.preventDefault(); 
         event.stopPropagation();
-        var data = jq(this).attr("data-count");
-        var $item = jq(this);
+        var data = $(this).attr("data-count");
+        var $item = $(this);
         if (data===undefined) {
-            jq.get('@@vtc-content-count', 
+            $.get('@@vtc-content-count', 
                    {
                        kw : encodeURIComponent($item.attr("data-kw"))
                    },
