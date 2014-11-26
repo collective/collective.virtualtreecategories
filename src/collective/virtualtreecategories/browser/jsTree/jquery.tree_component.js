@@ -516,9 +516,9 @@
                     this.container.css({ position : "relative" });
                     this.offset = this.container.offset();
                     var tmp = 0;
-                    tmp = parseInt($.curCSS(this.container.get(0), "paddingTop", true),10);
+                    tmp = parseInt($(this.container.get(0)).css("paddingTop", 10));
                     if(tmp) this.offset.top += tmp;
-                    tmp = parseInt($.curCSS(this.container.get(0), "borderTopWidth", true),10);
+                    tmp = parseInt($(this.container.get(0)).css("borderTopWidth", 10));
                     if(tmp) this.offset.top += tmp;
                     this.container.css({ position : "" });
                 }
